@@ -11,4 +11,5 @@ deploy:
   provider: lambda
   function_name: wackenBands
   region: eu-west-1
+  zip: src
   edge: true
