@@ -7,3 +7,8 @@ install:
   - pipenv install --dev
 script:
   - pytest
+deploy:
+  provider: lambda
+  function_name: wackenBands
+  region: eu-west-1
+  edge: true
