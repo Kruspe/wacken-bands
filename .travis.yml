@@ -16,6 +16,6 @@ deploy:
   region: eu-west-1
   runtime: python3.7
   module_name: __main__
-  handler_name: get_bands
+  handler_name: get_bands_handler
   zip: dist
   edge: true
