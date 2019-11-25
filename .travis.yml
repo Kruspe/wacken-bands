@@ -7,6 +7,9 @@ install:
   - pipenv install --dev
 script:
   - pytest
+before_deploy:
+  - pip install --target dist requests
+  - cp -r src/__main__.py dist
 deploy:
   provider: lambda
   function_name: wackenBands
@@ -14,5 +17,5 @@ deploy:
   runtime: python3.7
   module_name: __main__
   handler_name: get_bands
-  zip: src
+  zip: dist
   edge: true
