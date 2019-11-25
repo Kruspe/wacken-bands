@@ -1,5 +1,7 @@
 import responses
 import json
+import pytest
+from botocore.exceptions import ClientError
 
 from botocore.stub import Stubber
 from src.__main__ import get_bands, upload_to_s3, S3_CLIENT
@@ -45,9 +47,10 @@ def test_upload_to_s3_without_empty_list_does_not_upload():
 
 
 def test_upload_to_s3_logs_exception(caplog):
-    with Stubber(S3_CLIENT) as s3_stub:
-        s3_stub.add_client_error('put_object', service_error_code='DEAD', service_message='BUCKET DEAD')
-        upload_to_s3(['band'])
+    with pytest.raises(ClientError):
+        with Stubber(S3_CLIENT) as s3_stub:
+            s3_stub.add_client_error('put_object', service_error_code='DEAD', service_message='BUCKET DEAD')
+            upload_to_s3(['band'])
 
     for record in caplog.records:
         assert record.levelname == 'ERROR'
