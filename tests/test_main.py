@@ -2,7 +2,7 @@ import responses
 import json
 
 from botocore.stub import Stubber
-from src.__main__ import get_bands, ARTISTS_URL, upload_to_s3, S3_CLIENT, BUCKET_NAME, BUCKET_KEY
+from src.__main__ import get_bands, upload_to_s3, S3_CLIENT
 
 
 @responses.activate
@@ -13,13 +13,17 @@ def test_get_bands_returns_list_of_bands():
     bands = [bloodbath, megadeth, vader]
     expected_band_names = [bloodbath['artist']['title'], megadeth['artist']['title'], vader['artist']['title']]
 
-    responses.add(responses.GET, ARTISTS_URL, json=bands, status=200)
+    responses.add(responses.GET,
+                  'https://www.wacken.com/de/programm/bands/?type=1541083944&tx_woamanager_pi2%5Bfestival%5D=4&tx_woamanager_pi2%5Bperformance%5D=1%2C7&tx_woamanager_pi2%5Baction%5D=list&tx_woamanager_pi2%5Bcontroller%5D=AssetJson&cHash=4aaeb0a4c6c3f83fbdd4013abb42357d',
+                  json=bands, status=200)
     assert get_bands() == expected_band_names
 
 
 @responses.activate
 def test_get_bands_returns_empty_list_when_request_is_not_successful():
-    responses.add(responses.GET, ARTISTS_URL, status=500)
+    responses.add(responses.GET,
+                  'https://www.wacken.com/de/programm/bands/?type=1541083944&tx_woamanager_pi2%5Bfestival%5D=4&tx_woamanager_pi2%5Bperformance%5D=1%2C7&tx_woamanager_pi2%5Baction%5D=list&tx_woamanager_pi2%5Bcontroller%5D=AssetJson&cHash=4aaeb0a4c6c3f83fbdd4013abb42357d',
+                  status=500)
     assert get_bands() == []
 
 
@@ -27,7 +31,7 @@ def test_upload_to_s3_uploads_list_of_bands():
     bands = ['Bloodbath', 'Megadeth', 'Vader']
     with Stubber(S3_CLIENT) as s3_stub:
         s3_stub.add_response('put_object', {},
-                             {'Body': json.dumps(bands), 'Bucket': BUCKET_NAME, 'Key': BUCKET_KEY})
+                             {'Body': json.dumps(bands), 'Bucket': 'festival-bands-dev', 'Key': '/wacken.json'})
         upload_to_s3(bands)
 
     assert s3_stub.assert_no_pending_responses
