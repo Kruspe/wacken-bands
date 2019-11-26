@@ -33,7 +33,7 @@ def test_upload_to_s3_uploads_list_of_bands():
     bands = ['Bloodbath', 'Megadeth', 'Vader']
     with Stubber(S3_CLIENT) as s3_stub:
         s3_stub.add_response('put_object', {},
-                             {'Body': json.dumps(bands), 'Bucket': 'festival-bands-dev', 'Key': 'wacken.json'})
+                             {'Body': json.dumps(bands), 'Bucket': 'festival-bands-dev', 'Key': 'public/wacken.json'})
         upload_to_s3(bands)
 
     assert s3_stub.assert_no_pending_responses
