@@ -18,18 +18,18 @@
     "default": {
         "boto3": {
             "hashes": [
-                "sha256:d843851b666527da9327f4652cb16ffb259bbf2b6d7b914c1b7b802d8f4339e5",
-                "sha256:f4010751f85e74c9668f6d150cedf73af12cb182c4cc129bf86134ad30b214d3"
+                "sha256:05f7ae180813fbf11cb7397b43b6bd29463abdc246bee58127836f1a8f6a9a2f",
+                "sha256:3480c87b530e7f41d9264a6725dda68208de2697822cf02cd3a541b001872410"
             ],
             "index": "pypi",
-            "version": "==1.11.8"
+            "version": "==1.11.9"
         },
         "botocore": {
             "hashes": [
-                "sha256:575d2acba7547729e4ba9a7753976269fe48c0fd555bf156bd73fa5270125916",
-                "sha256:737e6704cbba26c927e9b9407a0043fd27f613ebe20653c10bdf18746a6c0bd8"
+                "sha256:1909424c9544f92142c8e551888731e32a99f9c99cfe8d21fea3ec0c32981dae",
+                "sha256:e3e3c0f59dc30c86dd2116aece3bd554f8476446cf1c5770bbf5111993d676c8"
             ],
-            "version": "==1.14.8"
+            "version": "==1.14.9"
         },
         "certifi": {
             "hashes": [
@@ -150,10 +150,10 @@
         },
         "packaging": {
             "hashes": [
-                "sha256:aec3fdbb8bc9e4bb65f0634b9f551ced63983a529d6a8931817d52fdd0816ddb",
-                "sha256:fe1d8331dfa7cc0a883b49d75fc76380b2ab2734b220fbb87d774e4fd4b851f8"
+                "sha256:170748228214b70b672c581a3dd610ee51f733018650740e98c7df862a583f73",
+                "sha256:e665345f9eef0c621aa0bf2f8d78cf6d21904eef16a93f020240b704a57f1334"
             ],
-            "version": "==20.0"
+            "version": "==20.1"
         },
         "pluggy": {
             "hashes": [
