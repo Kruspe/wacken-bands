@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 import requests
 import boto3
 import logging
@@ -13,19 +13,19 @@ def get_bands_handler(event, context):
     upload_to_s3(get_bands())
 
 
-def get_bands() -> List[str]:
+def get_bands() -> List[Dict[str, str]]:
     band_names = []
     response = requests.get(
         'https://www.wacken.com/de/programm/bands/?type=1541083944&tx_woamanager_pi2%5Bfestival%5D=4&tx_woamanager_pi2%5Bperformance%5D=1%2C7&tx_woamanager_pi2%5Baction%5D=list&tx_woamanager_pi2%5Bcontroller%5D=AssetJson&cHash=4aaeb0a4c6c3f83fbdd4013abb42357d')
     if response.status_code == 200:
         bands = response.json()
         for band in bands:
-            band_names.append(band['artist']['title'])
+            band_names.append({'name': band['artist']['title'], 'image': 'https://wacken.com/' + band['images'][0]['originalResource']['publicUrl']})
 
     return band_names
 
 
-def upload_to_s3(bands: List[str]):
+def upload_to_s3(bands: List[Dict[str, str]]):
     if bands:
         try:
             S3_CLIENT.put_object(Bucket='festival-bandsprod-prod', Key='public/wacken.json', Body=json.dumps(bands))
