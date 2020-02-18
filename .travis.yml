@@ -1,6 +1,6 @@
 language: python
 python:
-  - 3.7
+  - 3.8
 install:
   - pip install pipenv
   - pipenv install
@@ -14,7 +14,7 @@ deploy:
   provider: lambda
   function_name: wackenBands
   region: eu-west-1
-  runtime: python3.7
+  runtime: python3.8
   module_name: __main__
   handler_name: get_bands_handler
   zip: dist
