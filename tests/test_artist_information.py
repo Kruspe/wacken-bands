@@ -6,7 +6,7 @@ from typing import List
 import pytest
 import responses
 
-from artist_information import get_images, SpotifyException
+from src.artist_information import get_images, SpotifyException
 
 spotify_token_endpoint = "https://accounts.spotify.com/api/token"
 spotify_token_response = {

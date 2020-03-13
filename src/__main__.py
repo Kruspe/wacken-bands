@@ -6,7 +6,7 @@ import json
 
 from botocore.exceptions import ClientError
 
-from artist_information import get_images
+from .artist_information import get_images
 
 S3_CLIENT = boto3.client('s3')
 
