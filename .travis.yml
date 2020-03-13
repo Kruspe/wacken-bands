@@ -18,6 +18,7 @@ deploy:
   provider: lambda
   function_name: wackenBands
   region: eu-west-1
+  runtime: python3.7
   module_name: __main__
   handler_name: get_bands_handler
   zip: dist
