@@ -4,45 +4,44 @@ import pytest
 from botocore.exceptions import ClientError
 
 from botocore.stub import Stubber
-from src.__main__ import get_bands, upload_to_s3, S3_CLIENT
+from src.__main__ import get_artists, upload_to_s3, S3_CLIENT
 
 wacken_url = 'https://www.wacken.com/de/programm/bands/?type=1541083944&tx_woamanager_pi2%5Bfestival%5D=4&tx_woamanager_pi2%5Bperformance%5D=1%2C7&tx_woamanager_pi2%5Baction%5D=list&tx_woamanager_pi2%5Bcontroller%5D=AssetJson&cHash=4aaeb0a4c6c3f83fbdd4013abb42357d'
 
 
 @responses.activate
-def test_get_bands_returns_list_of_bands_and_image_url():
-    bloodbath = {'artist': {'title': 'Bloodbath'}, 'images': [{'originalResource': {'publicUrl': 'bloodBathImage1'}},
-                                                              {'originalResource': {'publicUrl': 'bloodBathImage1'}}]}
-    megadeth = {'artist': {'title': 'Megadeth'}, 'images': [{'originalResource': {'publicUrl': 'megadethImage'}}]}
-    vader = {'artist': {'title': 'Vader'}, 'images': [{'originalResource': {'publicUrl': 'vaderImage'}}]}
-    bands = [bloodbath, megadeth, vader]
-    expected_band_names = [
-        {'name': bloodbath['artist']['title'], 'image': 'https://wacken.com/bloodBathImage1'},
-        {'name': megadeth['artist']['title'], 'image': 'https://wacken.com/megadethImage'},
-        {'name': vader['artist']['title'], 'image': 'https://wacken.com/vaderImage'}
-    ]
+def test_get_artists_returns_list_of_bands():
+    bloodbath = {'artist': {'title': 'Bloodbath'}}
+    megadeth = {'artist': {'title': 'Megadeth'}}
+    vader = {'artist': {'title': 'Vader'}}
+    artists = [bloodbath, megadeth, vader]
+    expected_artist_names = [bloodbath['artist']['title'], megadeth['artist']['title'], vader['artist']['title']]
 
     responses.add(responses.GET,
                   wacken_url,
-                  json=bands, status=200)
-    assert get_bands() == expected_band_names
+                  json=artists, status=200)
+    assert get_artists() == expected_artist_names
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url == wacken_url
 
 
 @responses.activate
-def test_get_bands_returns_empty_list_when_request_is_not_successful():
+def test_get_artists_returns_empty_list_when_request_is_not_successful():
     responses.add(responses.GET,
                   wacken_url,
                   status=500)
-    assert get_bands() == []
+    assert get_artists() == []
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url == wacken_url
 
 
 def test_upload_to_s3_uploads_list_of_bands():
-    bands = ['Bloodbath', 'Megadeth', 'Vader']
+    artists = ['Bloodbath', 'Megadeth', 'Vader']
     with Stubber(S3_CLIENT) as s3_stub:
         s3_stub.add_response('put_object', {},
-                             {'Body': json.dumps(bands), 'Bucket': 'festival-bandsprod-prod',
+                             {'Body': json.dumps(artists), 'Bucket': 'festival-bandsprod-prod',
                               'Key': 'public/wacken.json'})
-        upload_to_s3(bands)
+        upload_to_s3(artists)
 
     assert s3_stub.assert_no_pending_responses
 
@@ -60,6 +59,7 @@ def test_upload_to_s3_logs_exception(caplog):
             s3_stub.add_client_error('put_object', service_error_code='DEAD', service_message='BUCKET DEAD')
             upload_to_s3(['band'])
 
+    assert len(caplog.records) == 1
     for record in caplog.records:
         assert record.levelname == 'ERROR'
         assert record.getMessage() == 'An error occurred (DEAD) when calling the PutObject operation: BUCKET DEAD'
