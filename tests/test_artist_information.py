@@ -68,7 +68,7 @@ def test_get_images_returns_ordered_list_of_image_urls():
     artists = ["Bloodbath", "Megadeth", "Vader"]
     search_urls = generate_search_urls(artists)
     search_responses = generate_search_responses(3)
-    authorization_header_key = "Authroization"
+    authorization_header_key = "Authorization"
     authorization_header_value = "Basic " + b64encode(
         (os.environ["SPOTIFY_CLIENT_ID"] + ":" + os.environ["SPOTIFY_CLIENT_SECRET"]).encode()).decode("utf-8")
     content_type_header_key = "Content-Type"
