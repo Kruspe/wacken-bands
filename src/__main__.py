@@ -15,8 +15,8 @@ def get_bands_handler(event, context):
     artist_information = []
     artists = get_artists()
     image_urls = get_images(artists)
-    for index, artist in enumerate(artists):
-        artist_information.append({"artist": artist, "image": image_urls[index]})
+    for artist in artists:
+        artist_information.append({"artist": artist, "image": image_urls[artist]})
     upload_to_s3(artist_information)
 
 
@@ -33,7 +33,6 @@ def get_artists() -> List[str]:
 
 
 def upload_to_s3(artists: List[Dict[str, str]]):
-    print(artists)
     if artists:
         try:
             S3_CLIENT.put_object(Bucket='festival-bandsprod-prod', Key='public/wacken.json', Body=json.dumps(artists))

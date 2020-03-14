@@ -58,13 +58,13 @@ def generate_search_urls(artists: List[str]) -> List[str]:
     return search_urls
 
 
-def test_get_images_with_empty_list_returns_empty_list():
-    assert get_images([]) == []
+def test_get_images_with_empty_list_empty_dict():
+    assert get_images([]) == {}
     assert len(responses.calls) == 0
 
 
 @responses.activate
-def test_get_images_returns_ordered_list_of_image_urls():
+def test_get_images_returns_dict_with_images_for_all_artists():
     artists = ["Bloodbath", "Megadeth", "Vader"]
     search_urls = generate_search_urls(artists)
     search_responses = generate_search_responses(3)
@@ -101,7 +101,11 @@ def test_get_images_returns_ordered_list_of_image_urls():
     assert responses.calls[2].request.headers[authorization_header_key] == "Bearer token"
     assert responses.calls[3].request.headers[authorization_header_key] == "Bearer token"
 
-    assert ["https://0image_320.com", "https://1image_320.com", "https://2image_320.com"] == artist_images
+    assert {
+               artists[0]: "https://0image_320.com",
+               artists[1]: "https://1image_320.com",
+               artists[2]: "https://2image_320.com"
+           } == artist_images
 
 
 @responses.activate
@@ -127,7 +131,12 @@ def test_get_images_skips_artist_when_search_returns_no_results():
     assert responses.calls[2].request.url == search_urls[1]
     assert responses.calls[3].request.url == search_urls[2]
 
-    assert ["https://0image_320.com", "https://1image_320.com"] == artist_images
+    assert {
+               artists[0]: "https://0image_320.com",
+               artists[1]: None,
+               artists[2]: "https://1image_320.com"
+           } == artist_images
+
 
 @responses.activate
 def test_get_images_raises_and_logs_exception_when_getting_token_fails(caplog):
