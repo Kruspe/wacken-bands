@@ -27,11 +27,13 @@ def get_images(artists: List[str]) -> List[str]:
         search_response = requests.get("https://api.spotify.com/v1/search",
                                        {"type": "artist", "limit": 1, "q": artist},
                                        headers={"Authorization": "Bearer " + token["access_token"]})
+        artist_json = search_response.json()
         if search_response.status_code != 200:
             logging.error("Spotify search returned status " + str(search_response.status_code)
-                          + ", " + str(search_response.json()))
+                          + ", " + str(artist_json))
             raise SpotifyException("Spotify search response is invalid")
-        artist_images.append(search_response.json()["artists"]["items"][0]["images"][1]["url"])
+        if len(artist_json["artists"]["items"]) > 0:
+            artist_images.append(artist_json["artists"]["items"][0]["images"][1]["url"])
     return artist_images
 
 

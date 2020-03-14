@@ -105,6 +105,31 @@ def test_get_images_returns_ordered_list_of_image_urls():
 
 
 @responses.activate
+def test_get_images_skips_artist_when_search_returns_no_results():
+    artists = ["Bloodbath", "FakeArtist", "Vader"]
+    search_urls = generate_search_urls(artists)
+    search_responses = generate_search_responses(2)
+    empty_search_response = {
+        "artists": {
+            "items": [],
+        }
+    }
+    responses.add(responses.POST, spotify_token_endpoint, json=spotify_token_response, status=200)
+    responses.add(responses.GET, "https://api.spotify.com/v1/search", json=search_responses[0], status=200)
+    responses.add(responses.GET, "https://api.spotify.com/v1/search", json=empty_search_response, status=200)
+    responses.add(responses.GET, "https://api.spotify.com/v1/search", json=search_responses[1], status=200)
+
+    artist_images = get_images(artists)
+
+    assert len(responses.calls) == 4
+    assert responses.calls[0].request.url == spotify_token_endpoint
+    assert responses.calls[1].request.url == search_urls[0]
+    assert responses.calls[2].request.url == search_urls[1]
+    assert responses.calls[3].request.url == search_urls[2]
+
+    assert ["https://0image_320.com", "https://1image_320.com"] == artist_images
+
+@responses.activate
 def test_get_images_raises_and_logs_exception_when_getting_token_fails(caplog):
     error_message = {"error": "error"}
     responses.add(responses.POST, spotify_token_endpoint, json=error_message, status=500)
