@@ -106,7 +106,8 @@ def test_get_images_returns_ordered_list_of_image_urls():
 
 @responses.activate
 def test_get_images_raises_and_logs_exception_when_getting_token_fails(caplog):
-    responses.add(responses.POST, spotify_token_endpoint, status=500)
+    error_message = {"error": "error"}
+    responses.add(responses.POST, spotify_token_endpoint, json=error_message, status=500)
 
     with pytest.raises(SpotifyException):
         get_images(["Bloodbath"])
@@ -117,15 +118,17 @@ def test_get_images_raises_and_logs_exception_when_getting_token_fails(caplog):
     assert len(caplog.records) == 1
     for record in caplog.records:
         assert record.levelname == "ERROR"
-        assert record.getMessage() == "Spotify token endpoint returned status 500"
+        expected_log_message = 'Spotify token endpoint returned status 500, ' + str(error_message)
+        assert record.getMessage() == expected_log_message
 
 
 @responses.activate
 def test_get_images_raises_and_logs_exception_when_search_fails(caplog):
     artists = ["Bloodbath", "Megadeth", "Vader"]
     search_urls = generate_search_urls(artists)
+    error_message = {"error": "error"}
     responses.add(responses.POST, spotify_token_endpoint, json=spotify_token_response, status=200)
-    responses.add(responses.GET, "https://api.spotify.com/v1/search", status=500)
+    responses.add(responses.GET, "https://api.spotify.com/v1/search", json=error_message, status=500)
 
     with pytest.raises(SpotifyException):
         get_images(artists)
@@ -137,4 +140,4 @@ def test_get_images_raises_and_logs_exception_when_search_fails(caplog):
     assert len(caplog.records) == 1
     for record in caplog.records:
         assert record.levelname == "ERROR"
-        assert record.getMessage() == "Spotify search returned status 500"
+        assert record.getMessage() == "Spotify search returned status 500, " + str(error_message)

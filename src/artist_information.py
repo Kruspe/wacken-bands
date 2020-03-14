@@ -18,7 +18,8 @@ def get_images(artists: List[str]) -> List[str]:
                                            headers={"Authroization": encoded_spotify_basic_auth,
                                                     "Content-Type": "application/x-www-form-urlencoded"})
     if spotify_token_response.status_code != 200:
-        logging.error("Spotify token endpoint returned status " + str(spotify_token_response.status_code))
+        logging.error("Spotify token endpoint returned status " + str(spotify_token_response.status_code)
+                      + ", " + str(spotify_token_response.json()))
         raise SpotifyException("Spotify token response is invalid")
 
     for artist in artists:
@@ -27,7 +28,8 @@ def get_images(artists: List[str]) -> List[str]:
                                        {"type": "artist", "limit": 1, "q": artist},
                                        headers={"Authroization": "Bearer " + token["access_token"]})
         if search_response.status_code != 200:
-            logging.error("Spotify search returned status " + str(search_response.status_code))
+            logging.error("Spotify search returned status " + str(search_response.status_code)
+                          + ", " + str(search_response.json()))
             raise SpotifyException("Spotify search response is invalid")
         artist_images.append(search_response.json()["artists"]["items"][0]["images"][1]["url"])
     return artist_images
