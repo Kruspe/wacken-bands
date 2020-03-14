@@ -13,13 +13,13 @@ script:
   - pytest
 before_deploy:
   - pip install --target dist requests
-  - cp -r src/__main__.py src/artist_information.py dist
+  - cp -r src dist
 deploy:
   provider: lambda
   function_name: wackenBands
   region: eu-west-1
   runtime: python3.7
-  module_name: __main__
+  module_name: src.__main__
   handler_name: get_bands_handler
   zip: dist
   edge: true
