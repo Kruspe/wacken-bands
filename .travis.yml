@@ -22,5 +22,5 @@ deploy:
   module_name: src.__main__
   handler_name: get_bands_handler
   zip: dist
-  timeout: 30
+  timeout: 45
   edge: true
