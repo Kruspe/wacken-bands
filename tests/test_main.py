@@ -78,7 +78,7 @@ def test_get_bands_handler_gets_artists_and_images_and_uploads_them():
         "token_type": "bearer",
         "expires_in": 3600,
     }
-    spotify_search_bloodbath_url = "https://api.spotify.com/v1/search?type=artist&limit=1&q=Bloodbath"
+    spotify_search_bloodbath_url = "https://api.spotify.com/v1/search?type=artist&limit=5&q=Bloodbath"
     spotify_search_bloodbath_response = {
         "artists": {
             "items": [
@@ -99,7 +99,8 @@ def test_get_bands_handler_gets_artists_and_images_and_uploads_them():
                             "url": "https://image_160.com",
                             "width": 160
                         }
-                    ]
+                    ],
+                    "name": "Bloodbath"
                 }
             ]
         }
