@@ -1,8 +1,6 @@
 import itertools
-import json
 import logging
 import os
-import re
 from base64 import b64encode
 from typing import List, Dict
 
@@ -43,16 +41,16 @@ def get_images(artists: List[str]) -> Dict[str, str]:
         found_artists = search_response_json["artists"]["items"]
         if len(found_artists) == 0:
             artist_images[artist] = None
-            break
+            continue
 
         matching_artists = find_artists_with_matching_name(found_artists, artist)
         if len(matching_artists) == 0:
             artist_images[artist] = None
-            break
+            continue
         matching_artists_with_image = find_artists_with_images(matching_artists)
         if len(matching_artists_with_image) == 0:
             artist_images[artist] = None
-            break
+            continue
 
         images_with_right_size = list(itertools.filterfalse(
             lambda image: image["width"] > 400 or image["height"] > 400, matching_artists_with_image[0]["images"]))
