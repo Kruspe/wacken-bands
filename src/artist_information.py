@@ -51,9 +51,14 @@ def get_images(artists: List[str]) -> Dict[str, str]:
         if len(matching_artists_with_images) == 0:
             artist_images[artist] = None
             continue
-        artist_image = get_first_image_with_size_greater_400(matching_artists_with_images[0])
 
-        artist_images[artist] = artist_image["url"]
+        artist_images_with_correct_size = get_images_with_size_greater_300(matching_artists_with_images[0])
+        amount_of_images = len(artist_images_with_correct_size)
+        if amount_of_images == 0:
+            artist_images[artist] = None
+            continue
+
+        artist_images[artist] = artist_images_with_correct_size[amount_of_images - 1]["url"]
 
     return artist_images
 
@@ -68,10 +73,9 @@ def find_artists_with_images(artists):
         lambda artist: len(artist["images"]) == 0, artists))
 
 
-def get_first_image_with_size_greater_400(artist):
-    images_greater_400 = list(itertools.filterfalse(
-        lambda image: image["width"] < 400 or image["height"] < 400, artist["images"]))
-    return images_greater_400[len(images_greater_400) - 1]
+def get_images_with_size_greater_300(artist):
+    return list(itertools.filterfalse(
+        lambda image: image["width"] < 300 or image["height"] < 300, artist["images"]))
 
 
 class SpotifyException(Exception):

@@ -202,9 +202,9 @@ def test_get_images_returns_first_image_that_is_greater_than_400_in_width_and_he
                             "width": 1000
                         },
                         {
-                            "height": 640,
+                            "height": 300,
                             "url": expected_bloodbath_image_url,
-                            "width": 640
+                            "width": 300
                         },
                         {
                             "height": 420,
@@ -231,6 +231,33 @@ def test_get_images_returns_first_image_that_is_greater_than_400_in_width_and_he
     assert len(responses.calls) == 2
 
     assert artist_images == {"Bloodbath": expected_bloodbath_image_url}
+
+@responses.activate
+def test_get_images_returns_none_when_no_image_bigger_than_299_was_found():
+    search_response = {
+        "artists": {
+            "items": [
+                {
+                    "images": [
+                        {
+                            "height": 299,
+                            "url": "https://too_small_image.com",
+                            "width": 299
+                        }
+                    ],
+                    "name": "Bloodbath",
+                },
+            ],
+        }
+    }
+    responses.add(responses.POST, spotify_token_endpoint, json=spotify_token_response, status=200)
+    responses.add(responses.GET, "https://api.spotify.com/v1/search", json=search_response, status=200)
+
+    artist_images = get_images(["Bloodbath"])
+
+    assert len(responses.calls) == 2
+
+    assert artist_images == {"Bloodbath": None}
 
 
 @responses.activate
