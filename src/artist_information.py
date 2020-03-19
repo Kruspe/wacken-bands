@@ -47,15 +47,13 @@ def get_images(artists: List[str]) -> Dict[str, str]:
         if len(matching_artists) == 0:
             artist_images[artist] = None
             continue
-        matching_artists_with_image = find_artists_with_images(matching_artists)
-        if len(matching_artists_with_image) == 0:
+        matching_artists_with_images = find_artists_with_images(matching_artists)
+        if len(matching_artists_with_images) == 0:
             artist_images[artist] = None
             continue
+        artist_image = get_first_image_with_size_greater_400(matching_artists_with_images[0])
 
-        images_with_right_size = list(itertools.filterfalse(
-            lambda image: image["width"] > 400 or image["height"] > 400, matching_artists_with_image[0]["images"]))
-
-        artist_images[artist] = images_with_right_size[0]["url"]
+        artist_images[artist] = artist_image["url"]
 
     return artist_images
 
@@ -65,9 +63,15 @@ def find_artists_with_matching_name(search_result, name):
         lambda found_artist: found_artist["name"].lower() != name.lower(), search_result))
 
 
-def find_artists_with_images(matching_artists):
+def find_artists_with_images(artists):
     return list(itertools.filterfalse(
-        lambda matching_artist: len(matching_artist["images"]) == 0, matching_artists))
+        lambda artist: len(artist["images"]) == 0, artists))
+
+
+def get_first_image_with_size_greater_400(artist):
+    images_greater_400 = list(itertools.filterfalse(
+        lambda image: image["width"] < 400 or image["height"] < 400, artist["images"]))
+    return images_greater_400[len(images_greater_400) - 1]
 
 
 class SpotifyException(Exception):

@@ -21,9 +21,9 @@ bloodbath_search_response = {
             {
                 "images": [
                     {
-                        "height": 300,
+                        "height": 640,
                         "url": expected_bloodbath_image_url,
-                        "width": 300
+                        "width": 640
                     },
                 ],
                 "name": "Bloodbath",
@@ -190,30 +190,30 @@ def test_get_images_returns_first_image_for_matching_name():
 
 
 @responses.activate
-def test_get_images_returns_first_image_that_is_smaller_than_400_in_width_and_height():
+def test_get_images_returns_first_image_that_is_greater_than_400_in_width_and_height():
     search_response = {
         "artists": {
             "items": [
                 {
                     "images": [
                         {
-                            "height": 640,
+                            "height": 1000,
                             "url": "https://too_big_image.com",
+                            "width": 1000
+                        },
+                        {
+                            "height": 640,
+                            "url": expected_bloodbath_image_url,
                             "width": 640
                         },
                         {
                             "height": 420,
-                            "url": "https://height_too_big.com",
+                            "url": "https://width_too_small.com",
                             "width": 120
                         },
                         {
-                            "height": 300,
-                            "url": expected_bloodbath_image_url,
-                            "width": 300
-                        },
-                        {
                             "height": 120,
-                            "url": "https://second_fitting_image.com",
+                            "url": "https://too_small_image.com",
                             "width": 120
                         }
                     ],
@@ -272,9 +272,9 @@ def test_get_images_returns_image_only_for_matching_name():
                 {
                     "images": [
                         {
-                            "height": 300,
+                            "height": 640,
                             "url": expected_image_url,
-                            "width": 300
+                            "width": 640
                         },
                     ],
                     "name": "Attic",
