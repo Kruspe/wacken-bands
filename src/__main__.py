@@ -35,7 +35,7 @@ def get_artists() -> List[str]:
 def upload_to_s3(artists: List[Dict[str, str]]):
     if artists:
         try:
-            S3_CLIENT.put_object(Bucket='festival-bandsprod-prod', Key='public/wacken.json', Body=json.dumps(artists))
+            S3_CLIENT.put_object(Bucket='festival-bands150605-prod', Key='public/wacken.json', Body=json.dumps(artists))
         except ClientError as e:
             logging.error(e)
             raise
