@@ -43,7 +43,7 @@ def test_upload_to_s3_uploads_list_of_bands():
     ]
     with Stubber(S3_CLIENT) as s3_stub:
         s3_stub.add_response('put_object', {},
-                             {'Body': json.dumps(artists), 'Bucket': 'festival-bands150605-prod',
+                             {'Body': json.dumps(artists), 'Bucket': 'festivals132445-prod',
                               'Key': 'public/wacken.json'})
         upload_to_s3(artists)
 
@@ -112,7 +112,7 @@ def test_get_bands_handler_gets_artists_and_images_and_uploads_them():
     expected_json = [{"artist": "Bloodbath", "image": "https://image_320.com"}]
     with Stubber(S3_CLIENT) as s3_stub:
         s3_stub.add_response('put_object', {},
-                             {'Body': json.dumps(expected_json), 'Bucket': 'festival-bands150605-prod',
+                             {'Body': json.dumps(expected_json), 'Bucket': 'festivals132445-prod',
                               'Key': 'public/wacken.json'})
         get_bands_handler(None, None)
 
