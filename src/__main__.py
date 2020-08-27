@@ -23,7 +23,7 @@ def get_bands_handler(event, context):
 def get_artists() -> List[str]:
     artist_names = []
     response = requests.get(
-        'https://www.wacken.com/de/programm/bands/?type=1541083944&tx_woamanager_pi2%5Bfestival%5D=4&tx_woamanager_pi2%5Bperformance%5D=1%2C7&tx_woamanager_pi2%5Baction%5D=list&tx_woamanager_pi2%5Bcontroller%5D=AssetJson&cHash=4aaeb0a4c6c3f83fbdd4013abb42357d')
+        'https://www.wacken.com/de/programm/bands/?type=1541083944&tx_woamanager_pi2%5Bfestival%5D=5&tx_woamanager_pi2%5Bperformance%5D=1&tx_woamanager_pi2%5Baction%5D=list&tx_woamanager_pi2%5Bcontroller%5D=AssetJson&cHash=845439610192fc3f56a242c3f96cf006')
     if response.status_code == 200:
         artists = response.json()
         for artist in artists:
