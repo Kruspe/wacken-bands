@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Store Wacken bands
+Resources:
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - 'sts:AssumeRole'
+      ManagedPolicyArns:
+      - "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+      Policies:
+      - PolicyName: UploadToS3
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+          - Effect: Allow
+            Action: 's3:PutObject'
+            Resource: !ImportValue MusicRating-FestivalBandsBucketArn
+  Lambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: wackenBands
+      Runtime: python3.8
+      Handler: src.__main__.get_bands_handler
+      Role: !GetAtt [ LambdaExecutionRole, Arn ]
+      Timeout: 60
+      Code:
+        ZipFile: |
+          print("Trigger deploy to update the function")
+
+  UpdateWackenLambdaCodePolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: UpdateWackenLambdaCode
+      Users:
+      - !Ref UpdateWackenLambdaCodeUser
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Effect: Allow
+          Action:
+          - 'lambda:UpdateFunctionCode'
+          Resource: !GetAtt [ Lambda, Arn ]
+  UpdateWackenLambdaCodeUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: UpdateWackenLambda
