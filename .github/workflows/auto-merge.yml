@@ -1,0 +1,13 @@
+name: auto-merge
+
+on: [pull_request_target]
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Auto Merge
+      uses: ahmadnassri/action-dependabot-auto-merge@v2
+      with:
+        target: minor
+        github-token: ${{ secrets.AUTO_MERGE_TOKEN }}
