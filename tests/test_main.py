@@ -1,12 +1,21 @@
-import responses
 import json
-import pytest
-from botocore.exceptions import ClientError
+import os
 
+import pytest
+import responses
+from botocore.exceptions import ClientError
 from botocore.stub import Stubber
+
 from src.__main__ import get_artists, upload_to_s3, S3_CLIENT, get_bands_handler
 
 wacken_url = 'https://www.wacken.com/de/programm/bands/?type=1541083944&tx_woamanager_pi2%5Bfestival%5D=5&tx_woamanager_pi2%5Bperformance%5D=1&tx_woamanager_pi2%5Baction%5D=list&tx_woamanager_pi2%5Bcontroller%5D=AssetJson&cHash=845439610192fc3f56a242c3f96cf006'
+
+
+@pytest.fixture()
+def setup_env():
+    os.environ["FESTIVAL_BANDS_BUCKET"] = "MockedBucket"
+    yield
+    del os.environ["FESTIVAL_BANDS_BUCKET"]
 
 
 @responses.activate
@@ -35,7 +44,7 @@ def test_get_artists_returns_empty_list_when_request_is_not_successful():
     assert responses.calls[0].request.url == wacken_url
 
 
-def test_upload_to_s3_uploads_list_of_bands():
+def test_upload_to_s3_uploads_list_of_bands(setup_env):
     artists = [
         {"artist": "Bloodbath", "image": "https://0image_320.com"},
         {"artist": "Megadeth", "image": "https://1image_320.com"},
@@ -43,7 +52,7 @@ def test_upload_to_s3_uploads_list_of_bands():
     ]
     with Stubber(S3_CLIENT) as s3_stub:
         s3_stub.add_response('put_object', {},
-                             {'Body': json.dumps(artists), 'Bucket': 'festivals132445-prod',
+                             {'Body': json.dumps(artists), 'Bucket': 'MockedBucket',
                               'Key': 'public/wacken.json'})
         upload_to_s3(artists)
 
@@ -57,7 +66,7 @@ def test_upload_to_s3_without_empty_list_does_not_upload():
     assert s3_stub.assert_no_pending_responses
 
 
-def test_upload_to_s3_logs_exception(caplog):
+def test_upload_to_s3_logs_exception(caplog, setup_env):
     with pytest.raises(ClientError):
         with Stubber(S3_CLIENT) as s3_stub:
             s3_stub.add_client_error('put_object', service_error_code='DEAD', service_message='BUCKET DEAD')
@@ -70,7 +79,7 @@ def test_upload_to_s3_logs_exception(caplog):
 
 
 @responses.activate
-def test_get_bands_handler_gets_artists_and_images_and_uploads_them():
+def test_get_bands_handler_gets_artists_and_images_and_uploads_them(setup_env):
     wacken_bloodbath_response = [{'artist': {'title': 'Bloodbath'}}]
     spotify_token_endpoint = "https://accounts.spotify.com/api/token"
     spotify_token_response = {
@@ -112,7 +121,7 @@ def test_get_bands_handler_gets_artists_and_images_and_uploads_them():
     expected_json = [{"artist": "Bloodbath", "image": "https://image_320.com"}]
     with Stubber(S3_CLIENT) as s3_stub:
         s3_stub.add_response('put_object', {},
-                             {'Body': json.dumps(expected_json), 'Bucket': 'festivals132445-prod',
+                             {'Body': json.dumps(expected_json), 'Bucket': 'MockedBucket',
                               'Key': 'public/wacken.json'})
         get_bands_handler(None, None)
 

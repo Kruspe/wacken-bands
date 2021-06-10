@@ -1,3 +1,3 @@
-# Wacken Band parser [![Build Status](https://travis-ci.com/Kruspe/wacken-bands.svg?branch=master)](https://travis-ci.com/Kruspe/wacken-bands)
+# Wacken Band parser [![Test and Deploy](https://github.com/Kruspe/wacken-bands/actions/workflows/test-deploy-master.yml/badge.svg)](https://github.com/Kruspe/wacken-bands/actions/workflows/test-deploy-master.yml)
 
-Checks which bands are coming to Wacken 2020 and returns them as a list
+Checks which bands are coming to the latest edition of Wacken and returns them as a list
