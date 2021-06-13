@@ -8,7 +8,7 @@ from botocore.stub import Stubber
 
 from src.__main__ import get_artists, upload_to_s3, S3_CLIENT, get_bands_handler
 
-wacken_url = 'https://www.wacken.com/de/programm/bands/?type=1541083944&tx_woamanager_pi2%5Bfestival%5D=5&tx_woamanager_pi2%5Bperformance%5D=1&tx_woamanager_pi2%5Baction%5D=list&tx_woamanager_pi2%5Bcontroller%5D=AssetJson&cHash=845439610192fc3f56a242c3f96cf006'
+wacken_url = 'https://www.wacken.com/de/programm/bands/?type=1541083944&tx_woamanager_pi2%5Bfestival%5D=6&tx_woamanager_pi2%5Bperformance%5D=1&tx_woamanager_pi2%5Baction%5D=list&tx_woamanager_pi2%5Bcontroller%5D=AssetJson&cHash=13b82781b32e6e38e0d2cca30957dd65'
 
 
 @pytest.fixture()
