@@ -56,11 +56,32 @@ Resources:
     Properties:
       UserName: UpdateWackenLambda
 
+  CronJobRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - events.amazonaws.com
+          Action:
+          - 'sts:AssumeRole'
+      Policies:
+      - PolicyName: ExecuteWackenBandsLambda
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+          - Effect: Allow
+            Action: 'lambda:InvokeFunction'
+            Resource: !GetAtt [ Lambda, Arn ]
   LambdaCronJob:
     Type: AWS::Events::Rule
     Properties:
       Name: WackenBandsLamdaTrigger
       ScheduleExpression: cron(0 9,20 * * ? *)
+      RoleArn: !GetAtt [ CronJobRole, Arn ]
       Targets:
       - Arn: !GetAtt [ Lambda, Arn ]
         Id: "Wacken-Bands-Lambda"
