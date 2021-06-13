@@ -55,3 +55,12 @@ Resources:
     Type: AWS::IAM::User
     Properties:
       UserName: UpdateWackenLambda
+
+  LambdaCronJob:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: WackenBandsLamdaTrigger
+      ScheduleExpression: cron(0 9,20 * * ? *)
+      Targets:
+      - Arn: !GetAtt [ Lambda, Arn ]
+        Id: "Wacken-Bands-Lambda"
