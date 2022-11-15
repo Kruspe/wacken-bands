@@ -119,11 +119,11 @@
                 "essential"
             ],
             "hashes": [
-                "sha256:510b0be019b983e3bafe028d75f0d3f57d9f1c7fa88eba9947cdba8c90fdd17c",
-                "sha256:c9195b6865daf608cb9c72f2dc4d9d62f5100deb832ba0c199da609378210ee5"
+                "sha256:25506b8f44f3847aa62341dd5d3b7515c7d7dcc652fd5c4ae5936c157b23a8e9",
+                "sha256:ad5c4aae37fea2e631182ed0124c2561cd4e11e49aa1ecb2c4084268194fdc9e"
             ],
             "index": "pypi",
-            "version": "==1.26.8"
+            "version": "==1.26.9"
         },
         "botocore-stubs": {
             "hashes": [
