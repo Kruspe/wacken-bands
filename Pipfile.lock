@@ -26,11 +26,11 @@
         },
         "botocore": {
             "hashes": [
-                "sha256:48cf33d7c513320711321c3b303b0c9810b23e15fa03424f7323883e4ce6cef8",
-                "sha256:9c6adcf4e080be63b92f50d01e176ef2d1d2a3da7d8387a964abb9eb65fc8aad"
+                "sha256:01f168e2418419a6d8b335ecc4330faa6a7332d5a097029fc9b4a3ae3c41cea2",
+                "sha256:c876a7c6a07d7f86f46a8cc765f0d38999b84ac1d7b0666d6ce08c0503e13145"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==1.29.8"
+            "version": "==1.29.9"
         },
         "certifi": {
             "hashes": [
@@ -119,19 +119,19 @@
                 "essential"
             ],
             "hashes": [
-                "sha256:510b0be019b983e3bafe028d75f0d3f57d9f1c7fa88eba9947cdba8c90fdd17c",
-                "sha256:c9195b6865daf608cb9c72f2dc4d9d62f5100deb832ba0c199da609378210ee5"
+                "sha256:25506b8f44f3847aa62341dd5d3b7515c7d7dcc652fd5c4ae5936c157b23a8e9",
+                "sha256:ad5c4aae37fea2e631182ed0124c2561cd4e11e49aa1ecb2c4084268194fdc9e"
             ],
             "index": "pypi",
-            "version": "==1.26.8"
+            "version": "==1.26.9"
         },
         "botocore-stubs": {
             "hashes": [
-                "sha256:66e49ee1a524d954ce2b199fdc1c052d51379480934c197a34e441a6b2e8c717",
-                "sha256:d2864cae5f8e574aa5174af28a301120dec66f12d9a0943116d65caad56ba6d1"
+                "sha256:6a410abfb16d1aa3b3722eac66e4f8baa092d7e6635606ba9b017b04ddc6d781",
+                "sha256:7eaa1301d8f3b0c996391ebe0d6369d9d8f4d50a526ffe6db7e0d57a9790190d"
             ],
-            "markers": "python_version >= '3.7' and python_version < '4'",
-            "version": "==1.29.8"
+            "markers": "python_version >= '3.7' and python_version < '4.0'",
+            "version": "==1.29.9"
         },
         "certifi": {
             "hashes": [
@@ -151,11 +151,11 @@
         },
         "exceptiongroup": {
             "hashes": [
-                "sha256:a31cd183c3dea02e617aab5153588d5f7258a77b51f0ef41b3815ae8a0d0f695",
-                "sha256:c22f11ec6a10d2b453871c5c5fe887436c4d1961324ce9090f2ca6ddc4180c27"
+                "sha256:6002703c7d31fb9950ddc8780840f67880c440895dc1151dd551553aa1246e4a",
+                "sha256:76cac74b5207c5997678a1c7105cb6f14213c9c63c096a38cfcb529d83ce5c02"
             ],
             "markers": "python_version < '3.11'",
-            "version": "==1.0.2"
+            "version": "==1.0.3"
         },
         "idna": {
             "hashes": [
@@ -202,10 +202,10 @@
         },
         "mypy-boto3-rds": {
             "hashes": [
-                "sha256:39e65e62668ec33f06b4c15da14977892ea9c5f403b75edc743c8322527ca562",
-                "sha256:aa81d7cbd92ce0a5da8b0d879f674c31e83a43b43d101fae4990db469af683f5"
+                "sha256:67749669b18501699f3a5669a21f86e50e5de80d84b2b69c2a7eb7ea604c4968",
+                "sha256:883101e991df803737d1a56bb2c1b3e9ab9524ac232f95c543e645c9e29fec80"
             ],
-            "version": "==1.26.0.post1"
+            "version": "==1.26.9"
         },
         "mypy-boto3-s3": {
             "hashes": [
@@ -290,7 +290,7 @@
                 "sha256:faa90585ef8f4e6e85fde17ad2c04604717a7978840416c92b7adddbf6fe5793",
                 "sha256:ff24dcbed0d1d27bc2565702af0a2ae5eb73223de87dfe3e4e1bf2eaf00a57ec"
             ],
-            "markers": "python_version >= '3.7' and python_version < '4'",
+            "markers": "python_version >= '3.7' and python_version < '4.0'",
             "version": "==0.15.3"
         },
         "types-s3transfer": {
@@ -298,7 +298,7 @@
                 "sha256:0c45331bfd0db210f5043efd2bc3ecd4b3482a02c28faea33edf719b6be38431",
                 "sha256:78f9ea029fedc97e1a5d323edd149a827d4ab361d11cd92bb1b5f235ff84ba72"
             ],
-            "markers": "python_version >= '3.7' and python_version < '4'",
+            "markers": "python_version >= '3.7' and python_version < '4.0'",
             "version": "==0.6.0.post4"
         },
         "types-toml": {
