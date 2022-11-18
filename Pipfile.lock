@@ -18,19 +18,19 @@
     "default": {
         "boto3": {
             "hashes": [
-                "sha256:3309d04e47490a1b46aa8ae7bcf4845a8dae2ed419a505c770895773ba7455dc",
-                "sha256:f8f7268afe62e3b34b7d0e1b4d8a804148e713f35b0e6dbc736346b28b3c6549"
+                "sha256:180b4413db1211836c622adfc16dd40a7b99b86cac894bc6e17ddea9d282ab14",
+                "sha256:73da24667fe1351cef0f402ee9cd4589a0a9d97b617caca3c25b5cdc38f9d62c"
             ],
             "index": "pypi",
-            "version": "==1.26.11"
+            "version": "==1.26.12"
         },
         "botocore": {
             "hashes": [
-                "sha256:97532c8a571017891ad4afee7951bea95c9f0bfe96a6f38fdca9062cd6067ec1",
-                "sha256:a86d7e558074e849933983bc2c4cc6ae6bbed3aef3f5fb4d4689cd19331e4399"
+                "sha256:3149b102e3c26c935acef6c330d0f46c717820d118886e983b6e81c306f31405",
+                "sha256:fdae73306a41a30697be300bdecb1e0d560d453c6d748891856beb87e9f6573f"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==1.29.11"
+            "version": "==1.29.12"
         },
         "certifi": {
             "hashes": [
@@ -127,11 +127,11 @@
         },
         "botocore-stubs": {
             "hashes": [
-                "sha256:6a410abfb16d1aa3b3722eac66e4f8baa092d7e6635606ba9b017b04ddc6d781",
-                "sha256:7eaa1301d8f3b0c996391ebe0d6369d9d8f4d50a526ffe6db7e0d57a9790190d"
+                "sha256:9e2e0e1357d95617b3471a2c2ab07a05bb564907f6b44300aed444a734d82a5a",
+                "sha256:e050ae81d7f9db3880db5062bbc827c897c9f24486fe24f64f33d02ebad6ed84"
             ],
-            "markers": "python_version >= '3.7' and python_version < '4.0'",
-            "version": "==1.29.9"
+            "markers": "python_version >= '3.7' and python_version < '4'",
+            "version": "==1.29.12"
         },
         "certifi": {
             "hashes": [
@@ -188,17 +188,17 @@
         },
         "mypy-boto3-ec2": {
             "hashes": [
-                "sha256:93e6c8548dcd67555231d136d1dcc2a197b28e9b541637b0085e2b748c576859",
-                "sha256:9a28995151af6fc86f47a6cb58d2c331536a8bbe54b4fbf0a97bfce01047fcf3"
+                "sha256:14ed5b067224c77a9c3bfbe7fed8598bb85c889c21385d85d9f1d40366854c82",
+                "sha256:a7c7f0e16b94d928f95340d8d37e13073313869a219d019a3f3df98ab82c88ea"
             ],
-            "version": "==1.26.7"
+            "version": "==1.26.12"
         },
         "mypy-boto3-lambda": {
             "hashes": [
-                "sha256:3e6dedf959aa13fc58e6721d56c93f91068c468659b3d0e22580830f3b39aebc",
-                "sha256:c198f5a3749c945cb66eecaf225657d9e4ac23d825ca923827df8f771fab91c4"
+                "sha256:2063fa9c9f926e686a0d6229f063be3e5a083729f2f4de9c547073970a476ce3",
+                "sha256:8c9391f51f9ec0d2e6b472a9e465d17605b704535a9430017e2d2ace7d6679c5"
             ],
-            "version": "==1.26.0.post1"
+            "version": "==1.26.12"
         },
         "mypy-boto3-rds": {
             "hashes": [
@@ -290,16 +290,16 @@
                 "sha256:faa90585ef8f4e6e85fde17ad2c04604717a7978840416c92b7adddbf6fe5793",
                 "sha256:ff24dcbed0d1d27bc2565702af0a2ae5eb73223de87dfe3e4e1bf2eaf00a57ec"
             ],
-            "markers": "python_version >= '3.7' and python_version < '4.0'",
+            "markers": "python_version >= '3.7' and python_version < '4'",
             "version": "==0.15.3"
         },
         "types-s3transfer": {
             "hashes": [
-                "sha256:0c45331bfd0db210f5043efd2bc3ecd4b3482a02c28faea33edf719b6be38431",
-                "sha256:78f9ea029fedc97e1a5d323edd149a827d4ab361d11cd92bb1b5f235ff84ba72"
+                "sha256:2cf1e07cf4d1a5a2a68d89c654f45d9c3b678d39f7fe03a6f36903b6dbd3bcbc",
+                "sha256:cfcbee11c16d60af3feb3dbffea3a85b32129235b562912dece310a45ae83a2c"
             ],
-            "markers": "python_version >= '3.7' and python_version < '4.0'",
-            "version": "==0.6.0.post4"
+            "markers": "python_version >= '3.7' and python_version < '4'",
+            "version": "==0.6.0.post5"
         },
         "types-toml": {
             "hashes": [
