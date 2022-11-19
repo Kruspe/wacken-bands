@@ -1,5 +1,13 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: Store Wacken bands
+Parameters:
+  BandBucketArn:
+    Type: AWS::SSM::Parameter::Value<String>
+  BandBucketName:
+    Type: AWS::SSM::Parameter::Value<String>
+  DeploymentBucketName:
+    Type: AWS::SSM::Parameter::Value<String>
+
 Resources:
   LambdaExecutionRole:
     Type: AWS::IAM::Role
@@ -22,39 +30,23 @@ Resources:
           Statement:
           - Effect: Allow
             Action: 's3:PutObject'
-            Resource: !Join [ "", [ !ImportValue MusicRating-FestivalBandsBucketArn, "/public/wacken.json" ] ]
+            Resource: !Join [ "", [ !Ref BandBucketArn, "wacken.json" ] ]
   Lambda:
     Type: AWS::Lambda::Function
     Properties:
       FunctionName: wackenBands
-      Runtime: python3.8
+      Runtime: python3.9
       Handler: src.__main__.get_bands_handler
       Role: !GetAtt [ LambdaExecutionRole, Arn ]
       Timeout: 60
       Environment:
         Variables:
-          FESTIVAL_BANDS_BUCKET: !ImportValue MusicRating-FestivalBandsBucketName
+          FESTIVAL_BANDS_BUCKET: !Ref BandBucketName
+          SPOTIFY_CLIENT_ID: "{{resolve:ssm-secure:/spotify/client-id:1}}"
+          SPOTIFY_CLIENT_SECRET: "{{resolve:ssm-secure:/spotify/client-secret:1}}"
       Code:
-        ZipFile: |
-          print("Trigger deploy to update the function")
-
-  UpdateWackenLambdaCodePolicy:
-    Type: AWS::IAM::Policy
-    Properties:
-      PolicyName: UpdateWackenLambdaCode
-      Users:
-      - !Ref UpdateWackenLambdaCodeUser
-      PolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-        - Effect: Allow
-          Action:
-          - 'lambda:UpdateFunctionCode'
-          Resource: !GetAtt [ Lambda, Arn ]
-  UpdateWackenLambdaCodeUser:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: UpdateWackenLambda
+        S3Bucket: !Ref DeploymentBucketName
+        S3Key: wacken.zip
 
   CronJobRole:
     Type: AWS::IAM::Role

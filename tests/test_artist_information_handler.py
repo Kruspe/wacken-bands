@@ -1,13 +1,18 @@
 import copy
+import json
 import os
 from base64 import b64encode
-from typing import List
+from typing import Union
+from unittest.mock import create_autospec, Mock
 
 import pytest
 import responses
 
-from src.artist_information import get_images, SpotifyException
+from src.adapter.s3 import S3
+from src.adapter.ssm import Ssm
+from src.artist_information_handler import ArtistInformationHandler, SpotifyException
 
+wacken_url = "https://www.wacken.com/fileadmin/Json/bandlist-concert.json"
 spotify_token_endpoint = "https://accounts.spotify.com/api/token"
 spotify_token_response = {
     "access_token": "token",
@@ -20,11 +25,7 @@ bloodbath_search_response = {
         "items": [
             {
                 "images": [
-                    {
-                        "height": 640,
-                        "url": expected_bloodbath_image_url,
-                        "width": 640
-                    },
+                    {"height": 640, "url": expected_bloodbath_image_url, "width": 640},
                 ],
                 "name": "Bloodbath",
             },
@@ -33,18 +34,73 @@ bloodbath_search_response = {
 }
 
 
-def test_get_images_with_empty_list_empty_dict():
-    assert get_images([]) == {}
+@pytest.fixture
+def handler():
+    ssm: Union[Mock, Ssm] = create_autospec(Ssm)
+    ssm.get_parameters.return_value = {"/spotify/client-id": "client_id", "/spotify/client-secret": "client_secret"}
+    s3: Union[Mock, S3] = create_autospec(S3)
+
+    yield ArtistInformationHandler(ssm=ssm, s3=s3)
+
+
+@pytest.fixture
+def spotify_envs():
+    os.environ["SPOTIFY_CLIENT_ID_PARAMETER_NAME"] = "/spotify/client-id"
+    os.environ["SPOTIFY_CLIENT_SECRET_PARAMETER_NAME"] = "/spotify/client-secret"
+    yield
+    del os.environ["SPOTIFY_CLIENT_ID_PARAMETER_NAME"]
+    del os.environ["SPOTIFY_CLIENT_SECRET_PARAMETER_NAME"]
+
+
+@pytest.fixture
+def bucket_env():
+    os.environ["FESTIVAL_BANDS_BUCKET"] = "MockedBucket"
+    yield
+    del os.environ["FESTIVAL_BANDS_BUCKET"]
+
+
+@responses.activate
+def test_get_artists_returns_list_of_bands(handler):
+    bloodbath = {"artist": {"title": "Bloodbath"}}
+    megadeth = {"artist": {"title": "Megadeth"}}
+    vader = {"artist": {"title": "Vader"}}
+    artists = [bloodbath, megadeth, vader]
+    expected_artist_names = [bloodbath["artist"]["title"], megadeth["artist"]["title"], vader["artist"]["title"]]
+
+    responses.add(responses.GET, wacken_url, json=artists, status=200)
+
+    handler._get_artists()
+
+    assert handler.artist_names == expected_artist_names
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url == wacken_url
+
+
+@responses.activate
+def test_get_artists_returns_empty_list_when_request_is_not_successful(handler):
+    responses.add(responses.GET, wacken_url, status=500)
+
+    handler._get_artists()
+
+    assert handler.artist_names == []
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url == wacken_url
+
+
+def test_get_images_with_empty_list_empty_dict(handler):
+    handler._get_images()
+    assert handler.artist_images == {}
     assert len(responses.calls) == 0
 
 
 @responses.activate
-def test_get_images_raises_and_logs_exception_when_getting_token_fails(caplog):
+def test_get_images_raises_and_logs_exception_when_getting_token_fails(caplog, handler, spotify_envs):
     error_message = {"error": "error"}
     responses.add(responses.POST, spotify_token_endpoint, json=error_message, status=500)
 
+    handler.artist_names = ["Bloodbath"]
     with pytest.raises(SpotifyException):
-        get_images(["Bloodbath"])
+        handler._get_images()
 
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url == spotify_token_endpoint
@@ -52,18 +108,19 @@ def test_get_images_raises_and_logs_exception_when_getting_token_fails(caplog):
     assert len(caplog.records) == 1
     for record in caplog.records:
         assert record.levelname == "ERROR"
-        expected_log_message = 'Spotify token endpoint returned status 500, ' + str(error_message)
+        expected_log_message = "Spotify token endpoint returned status 500, " + str(error_message)
         assert record.getMessage() == expected_log_message
 
 
 @responses.activate
-def test_get_images_raises_and_logs_exception_when_search_fails(caplog):
+def test_get_images_raises_and_logs_exception_when_search_fails(caplog, handler, spotify_envs):
     error_message = {"error": "error"}
     responses.add(responses.POST, spotify_token_endpoint, json=spotify_token_response, status=200)
     responses.add(responses.GET, "https://api.spotify.com/v1/search", json=error_message, status=500)
 
+    handler.artist_names = ["Bloodbath"]
     with pytest.raises(SpotifyException):
-        get_images(["Bloodbath"])
+        handler._get_images()
 
     assert len(responses.calls) == 2
     assert responses.calls[0].request.url == spotify_token_endpoint
@@ -76,10 +133,9 @@ def test_get_images_raises_and_logs_exception_when_search_fails(caplog):
 
 
 @responses.activate
-def test_get_images_endpoints_get_called_correctly():
+def test_get_images_endpoints_get_called_correctly(handler, spotify_envs):
     authorization_header_key = "Authorization"
-    authorization_header_value = "Basic " + b64encode(
-        (os.environ["SPOTIFY_CLIENT_ID"] + ":" + os.environ["SPOTIFY_CLIENT_SECRET"]).encode()).decode("utf-8")
+    authorization_header_value = f"Basic {b64encode(b'client_id:client_secret').decode('utf-8')}"
     content_type_header_key = "Content-Type"
     content_type_header_value = "application/x-www-form-urlencoded"
     expected_body = "grant_type=client_credentials"
@@ -87,7 +143,8 @@ def test_get_images_endpoints_get_called_correctly():
     responses.add(responses.POST, spotify_token_endpoint, json=spotify_token_response, status=200)
     responses.add(responses.GET, "https://api.spotify.com/v1/search", json=bloodbath_search_response, status=200)
 
-    get_images(["Bloodbath"])
+    handler.artist_names = ["Bloodbath"]
+    handler._get_images()
 
     assert len(responses.calls) == 2
     assert responses.calls[0].request.url == spotify_token_endpoint
@@ -104,7 +161,7 @@ def test_get_images_endpoints_get_called_correctly():
 
 
 @responses.activate
-def test_get_images_returns_correct_images_for_two_bands():
+def test_get_images_returns_correct_images_for_two_bands(handler, spotify_envs):
     expected_megadeth_image_url = "https://megadeth_image.com"
     megadeth_search_response = copy.deepcopy(bloodbath_search_response)
     megadeth_search_response["artists"]["items"][0]["name"] = "Megadeth"
@@ -114,15 +171,16 @@ def test_get_images_returns_correct_images_for_two_bands():
     responses.add(responses.GET, "https://api.spotify.com/v1/search", json=bloodbath_search_response, status=200)
     responses.add(responses.GET, "https://api.spotify.com/v1/search", json=megadeth_search_response, status=200)
 
-    artist_images = get_images(["Bloodbath", "Megadeth"])
+    handler.artist_names = ["Bloodbath", "Megadeth"]
+    handler._get_images()
 
     assert len(responses.calls) == 3
 
-    assert artist_images == {"Bloodbath": expected_bloodbath_image_url, "Megadeth": expected_megadeth_image_url}
+    assert handler.artist_images == {"Bloodbath": expected_bloodbath_image_url, "Megadeth": expected_megadeth_image_url}
 
 
 @responses.activate
-def test_get_images_returns_none_when_no_artist_was_found():
+def test_get_images_returns_none_when_no_artist_was_found(handler, spotify_envs):
     search_response = {
         "artists": {
             "items": [],
@@ -131,15 +189,15 @@ def test_get_images_returns_none_when_no_artist_was_found():
     responses.add(responses.POST, spotify_token_endpoint, json=spotify_token_response, status=200)
     responses.add(responses.GET, "https://api.spotify.com/v1/search", json=search_response, status=200)
 
-    artist_images = get_images(["Bloodbath"])
+    handler.artist_names = ["Bloodbath"]
+    handler._get_images()
 
     assert len(responses.calls) == 2
-
-    assert artist_images == {"Bloodbath": None}
+    assert handler.artist_images == {"Bloodbath": None}
 
 
 @responses.activate
-def test_get_images_returns_none_when_no_name_matches_search():
+def test_get_images_returns_none_when_no_name_matches_search(handler, spotify_envs):
     search_response = {
         "artists": {
             "items": [
@@ -153,71 +211,51 @@ def test_get_images_returns_none_when_no_name_matches_search():
     responses.add(responses.POST, spotify_token_endpoint, json=spotify_token_response, status=200)
     responses.add(responses.GET, "https://api.spotify.com/v1/search", json=search_response, status=200)
 
-    artist_images = get_images(["Attic"])
+    handler.artist_names = ["Attic"]
+    handler._get_images()
 
     assert len(responses.calls) == 2
-
-    assert artist_images == {"Attic": None}
+    assert handler.artist_images == {"Attic": None}
 
 
 @responses.activate
-def test_get_images_returns_first_image_for_matching_name():
+def test_get_images_returns_first_image_for_matching_name(handler, spotify_envs):
     expected_image_url = "https://expected_image.com"
     search_response_with_two_name_matches = copy.deepcopy(bloodbath_search_response)
     search_response_with_two_name_matches["artists"]["items"][0]["images"][0]["url"] = expected_image_url
     search_response_with_two_name_matches["artists"]["items"].append(
         {
             "images": [
-                {
-                    "height": 300,
-                    "url": "https://different_image.com",
-                    "width": 300
-                },
+                {"height": 300, "url": "https://different_image.com", "width": 300},
             ],
             "name": "Bloodbath",
         }
     )
 
     responses.add(responses.POST, spotify_token_endpoint, json=spotify_token_response, status=200)
-    responses.add(responses.GET, "https://api.spotify.com/v1/search", json=search_response_with_two_name_matches,
-                  status=200)
+    responses.add(responses.GET, "https://api.spotify.com/v1/search", json=search_response_with_two_name_matches, status=200)
 
-    artist_images = get_images(["Bloodbath"])
+    handler.artist_names = ["Bloodbath"]
+    handler._get_images()
 
     assert len(responses.calls) == 2
 
-    assert artist_images == {"Bloodbath": expected_image_url}
+    assert handler.artist_images == {"Bloodbath": expected_image_url}
 
 
 @responses.activate
-def test_get_images_returns_first_image_that_is_greater_than_400_in_width_and_height():
+def test_get_images_returns_first_image_that_is_greater_than_400_in_width_and_height(handler, spotify_envs):
     search_response = {
         "artists": {
             "items": [
                 {
                     "images": [
-                        {
-                            "height": 1000,
-                            "url": "https://too_big_image.com",
-                            "width": 1000
-                        },
-                        {
-                            "height": 300,
-                            "url": expected_bloodbath_image_url,
-                            "width": 300
-                        },
-                        {
-                            "height": 420,
-                            "url": "https://width_too_small.com",
-                            "width": 120
-                        },
-                        {
-                            "height": 120,
-                            "url": "https://too_small_image.com",
-                            "width": 120
-                        }
+                        {"height": 1000, "url": "https://too_big_image.com", "width": 1000},
+                        {"height": 300, "url": expected_bloodbath_image_url, "width": 300},
+                        {"height": 420, "url": "https://width_too_small.com", "width": 120},
+                        {"height": 120, "url": "https://too_small_image.com", "width": 120},
                     ],
-                    "name": "Bloodbath"
+                    "name": "Bloodbath",
                 }
             ]
         }
@@ -226,25 +264,20 @@ def test_get_images_returns_first_image_that_is_greater_than_400_in_width_and_he
     responses.add(responses.POST, spotify_token_endpoint, json=spotify_token_response, status=200)
     responses.add(responses.GET, "https://api.spotify.com/v1/search", json=search_response, status=200)
 
-    artist_images = get_images(["Bloodbath"])
+    handler.artist_names = ["Bloodbath"]
+    handler._get_images()
 
     assert len(responses.calls) == 2
+    assert handler.artist_images == {"Bloodbath": expected_bloodbath_image_url}
 
-    assert artist_images == {"Bloodbath": expected_bloodbath_image_url}
 
 @responses.activate
-def test_get_images_returns_none_when_no_image_bigger_than_299_was_found():
+def test_get_images_returns_none_when_no_image_bigger_than_299_was_found(handler, spotify_envs):
     search_response = {
         "artists": {
             "items": [
                 {
-                    "images": [
-                        {
-                            "height": 299,
-                            "url": "https://too_small_image.com",
-                            "width": 299
-                        }
-                    ],
+                    "images": [{"height": 299, "url": "https://too_small_image.com", "width": 299}],
                     "name": "Bloodbath",
                 },
             ],
@@ -253,15 +286,15 @@ def test_get_images_returns_none_when_no_image_bigger_than_299_was_found():
     responses.add(responses.POST, spotify_token_endpoint, json=spotify_token_response, status=200)
     responses.add(responses.GET, "https://api.spotify.com/v1/search", json=search_response, status=200)
 
-    artist_images = get_images(["Bloodbath"])
+    handler.artist_names = ["Bloodbath"]
+    handler._get_images()
 
     assert len(responses.calls) == 2
-
-    assert artist_images == {"Bloodbath": None}
+    assert handler.artist_images == {"Bloodbath": None}
 
 
 @responses.activate
-def test_get_images_returns_none_when_no_images_were_found():
+def test_get_images_returns_none_when_no_images_were_found(handler, spotify_envs):
     search_response = {
         "artists": {
             "items": [
@@ -275,15 +308,15 @@ def test_get_images_returns_none_when_no_images_were_found():
     responses.add(responses.POST, spotify_token_endpoint, json=spotify_token_response, status=200)
     responses.add(responses.GET, "https://api.spotify.com/v1/search", json=search_response, status=200)
 
-    artist_images = get_images(["Bloodbath"])
+    handler.artist_names = ["Bloodbath"]
+    handler._get_images()
 
     assert len(responses.calls) == 2
-
-    assert artist_images == {"Bloodbath": None}
+    assert handler.artist_images == {"Bloodbath": None}
 
 
 @responses.activate
-def test_get_images_returns_image_only_for_matching_name():
+def test_get_images_returns_image_only_for_matching_name(handler, spotify_envs):
     expected_image_url = "https://attic_image.com"
     search_response = {
         "artists": {
@@ -298,11 +331,7 @@ def test_get_images_returns_image_only_for_matching_name():
                 },
                 {
                     "images": [
-                        {
-                            "height": 640,
-                            "url": expected_image_url,
-                            "width": 640
-                        },
+                        {"height": 640, "url": expected_image_url, "width": 640},
                     ],
                     "name": "Attic",
                 },
@@ -313,15 +342,36 @@ def test_get_images_returns_image_only_for_matching_name():
                 {
                     "images": [],
                     "name": "Attica Bars",
-                }
+                },
             ],
         }
     }
     responses.add(responses.POST, spotify_token_endpoint, json=spotify_token_response, status=200)
     responses.add(responses.GET, "https://api.spotify.com/v1/search", json=search_response, status=200)
 
-    artist_images = get_images(["Attic"])
+    handler.artist_names = ["Attic"]
+    handler._get_images()
 
     assert len(responses.calls) == 2
+    assert handler.artist_images == {"Attic": expected_image_url}
 
-    assert artist_images == {"Attic": expected_image_url}
+
+def test_upload_to_s3_uploads_list_of_bands(handler, bucket_env):
+    handler.artist_images = {"Bloodbath": "https://0image_320.com", "Megadeth": "https://1image_320.com", "Vader": "https://2image_320.com"}
+    handler._upload_to_s3()
+    artists = [
+        {"artist": "Bloodbath", "image": "https://0image_320.com"},
+        {"artist": "Megadeth", "image": "https://1image_320.com"},
+        {"artist": "Vader", "image": "https://2image_320.com"},
+    ]
+
+    _, args = handler.s3.upload.call_args_list[0]
+    assert args["bucket_name"] == "MockedBucket"
+    assert args["key"] == "wacken.json"
+    assert args["json"] == json.dumps(artists)
+
+
+def test_upload_to_s3_without_empty_list_does_not_upload(handler, bucket_env):
+    handler._upload_to_s3()
+
+    assert handler.s3.upload.called is False

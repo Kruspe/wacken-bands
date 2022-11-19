@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Store Wacken bands
+Resources:
+  Bucket:
+    Type: AWS::S3::Bucket
+  BucketNameParameter:
+    Type: AWS::SSM::Parameter
+    DependsOn: Bucket
+    Properties:
+      Description: Band bucket name
+      Name: /band-bucket/name
+      Type: String
+      Value: !Ref Bucket
+  BucketArnParameter:
+    Type: AWS::SSM::Parameter
+    DependsOn: Bucket
+    Properties:
+      Description: Band bucket arn
+      Name: /band-bucket/arn
+      Type: String
+      Value: !GetAtt [ Bucket, Arn ]

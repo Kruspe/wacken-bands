@@ -6,7 +6,8 @@ verify_ssl = true
 [dev-packages]
 responses = "*"
 pytest = "*"
-boto3-stubs = {extras = ["essential"], version = "*"}
+boto3-stubs = {extras = ["s3", "ssm"], version = "*"}
+moto = {extras = ["s3", "ssm"], version = "*"}
 
 [packages]
 requests = "*"

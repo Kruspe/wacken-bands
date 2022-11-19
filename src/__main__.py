@@ -1,42 +1,10 @@
-import os
-from typing import List, Dict
-import requests
 import boto3
-import logging
-import json
 
-from botocore.exceptions import ClientError
+from src.adapter.s3 import S3
+from src.adapter.ssm import Ssm
+from src.artist_information_handler import ArtistInformationHandler
 
-from .artist_information import get_images
+s3_client = boto3.client("s3")
+ssm_client = boto3.client("ssm", "eu-west-1")
 
-S3_CLIENT = boto3.client('s3')
-
-
-def get_bands_handler(event, context):
-    artist_information = []
-    artists = get_artists()
-    image_urls = get_images(artists)
-    for artist in artists:
-        artist_information.append({"artist": artist, "image": image_urls[artist]})
-    upload_to_s3(artist_information)
-
-
-def get_artists() -> List[str]:
-    artist_names = []
-    response = requests.get(
-        'https://www.wacken.com/de/programm/bands/?type=1541083944&tx_woamanager_pi2%5Bfestival%5D=6&tx_woamanager_pi2%5Bperformance%5D=1&tx_woamanager_pi2%5Baction%5D=list&tx_woamanager_pi2%5Bcontroller%5D=AssetJson&cHash=13b82781b32e6e38e0d2cca30957dd65')
-    if response.status_code == 200:
-        artists = response.json()
-        for artist in artists:
-            artist_names.append(artist['artist']['title'])
-
-    return artist_names
-
-
-def upload_to_s3(artists: List[Dict[str, str]]):
-    if artists:
-        try:
-            S3_CLIENT.put_object(Bucket=os.getenv("FESTIVAL_BANDS_BUCKET"), Key='public/wacken.json', Body=json.dumps(artists))
-        except ClientError as e:
-            logging.error(e)
-            raise
+handler = ArtistInformationHandler(ssm=Ssm(ssm_client=ssm_client), s3=S3(s3_client=s3_client))
