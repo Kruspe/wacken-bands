@@ -18,5 +18,5 @@ tasks:
     - rm -rf dist
     - pipenv install
     - pip install --target dist requests
-    - cp -r src dist
+    - cp -r wacken_bands dist
     - zip -r dist/wacken.zip dist

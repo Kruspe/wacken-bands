@@ -3,7 +3,7 @@ import pytest
 from botocore.exceptions import ClientError
 from moto import mock_s3
 
-from src.adapter.s3 import S3
+from wacken_bands.adapter.s3 import S3
 
 
 @mock_s3

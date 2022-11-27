@@ -1,8 +1,7 @@
 import boto3
-from botocore.stub import Stubber
 from moto import mock_ssm
 
-from src.adapter.ssm import Ssm
+from wacken_bands.adapter.ssm import Ssm
 
 
 @mock_ssm

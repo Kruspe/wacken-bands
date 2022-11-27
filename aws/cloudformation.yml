@@ -36,7 +36,7 @@ Resources:
     Properties:
       FunctionName: wackenBands
       Runtime: python3.9
-      Handler: src.__main__.get_bands_handler
+      Handler: index.handler
       Role: !GetAtt [ LambdaExecutionRole, Arn ]
       Timeout: 60
       Environment:
