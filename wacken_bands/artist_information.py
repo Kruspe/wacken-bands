@@ -3,7 +3,7 @@ import json
 import logging
 import os
 from base64 import b64encode
-from typing import List, Generator, Dict
+from typing import List, Dict
 
 import requests
 

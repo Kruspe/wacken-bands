@@ -6,17 +6,31 @@ tasks:
     deps: [build-wacken]
     dir: aws
     cmds:
-    - aws s3api put-object --bucket festival-bands-deployment-bucket --key wacken.zip --body ../dist/wacken.zip --profile music-rating > /dev/null
+    - task: deploy-wacken-to-aws
+
+  deploy-wacken-to-aws:
+    dir: aws
+    cmds:
     - aws cloudformation deploy --template-file cloudformation.yml --stack-name WackenBands --capabilities CAPABILITY_NAMED_IAM
       --parameter-overrides
       BandBucketArn=/band-bucket/arn
       BandBucketName=/band-bucket/name
       DeploymentBucketName=/festival-bands/deployment-bucket/name
+      ParamWackenVersion={{.WACKEN_VERSION_ID}}
       --profile music-rating
+    vars:
+      WACKEN_VERSION_ID:
+        sh: aws s3api put-object --bucket festival-bands-deployment-bucket --key wacken.zip --body ../dist/wacken.zip --profile music-rating | jq -r .VersionId
   build-wacken:
     cmds:
     - rm -rf dist
     - pipenv install
     - pip install --target dist requests
-    - cp -r wacken_bands dist
-    - zip -r dist/wacken.zip dist
+    - task: zip-dependencies
+    - zip -r dist/wacken.zip wacken_bands
+    - zip -r dist/wacken.zip index.py
+  zip-dependencies:
+    dir: dist
+    cmds:
+    - pwd
+    - zip -r wacken.zip .

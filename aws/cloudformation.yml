@@ -7,6 +7,8 @@ Parameters:
     Type: AWS::SSM::Parameter::Value<String>
   DeploymentBucketName:
     Type: AWS::SSM::Parameter::Value<String>
+  ParamWackenVersion:
+    Type: String
 
 Resources:
   LambdaExecutionRole:
@@ -30,7 +32,16 @@ Resources:
           Statement:
           - Effect: Allow
             Action: 's3:PutObject'
-            Resource: !Join [ "", [ !Ref BandBucketArn, "wacken.json" ] ]
+            Resource: !Join [ "", [ !Ref BandBucketArn, "/wacken.json" ] ]
+      - PolicyName: GetSsmParameters
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+          - Effect: Allow
+            Action: 'ssm:GetParameters'
+            Resource:
+            - !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/spotify/client-id
+            - !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/spotify/client-secret
   Lambda:
     Type: AWS::Lambda::Function
     Properties:
@@ -47,6 +58,7 @@ Resources:
       Code:
         S3Bucket: !Ref DeploymentBucketName
         S3Key: wacken.zip
+        S3ObjectVersion: !Ref ParamWackenVersion
 
   CronJobRole:
     Type: AWS::IAM::Role

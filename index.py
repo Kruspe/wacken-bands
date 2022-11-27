@@ -12,5 +12,5 @@ def handler(event, context):
     ai_handler = ArtistInformation(ssm=Ssm(ssm_client=ssm_client), s3=S3(s3_client=s3_client))
 
     artist_names = ai_handler.get_artists()
-    images = ai_handler.get_images(artist_names)
-    ai_handler.upload_to_s3(images)
+    images = ai_handler.get_images(artist_names=artist_names)
+    ai_handler.upload_to_s3(artist_images=images)
