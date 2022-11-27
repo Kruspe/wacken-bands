@@ -42,8 +42,8 @@ Resources:
       Environment:
         Variables:
           FESTIVAL_BANDS_BUCKET: !Ref BandBucketName
-          SPOTIFY_CLIENT_ID: "{{resolve:ssm-secure:/spotify/client-id:1}}"
-          SPOTIFY_CLIENT_SECRET: "{{resolve:ssm-secure:/spotify/client-secret:1}}"
+          SPOTIFY_CLIENT_ID_PARAMETER_NAME: /spotify/client-id
+          SPOTIFY_CLIENT_SECRET_PARAMETER_NAME: /spotify/client-secret
       Code:
         S3Bucket: !Ref DeploymentBucketName
         S3Key: wacken.zip
