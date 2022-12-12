@@ -37,7 +37,7 @@
                 "sha256:35824b4c3a97115964b408844d64aa14db1cc518f6562e8d7261699d1350a9e3",
                 "sha256:4ad3232f5e926d6718ec31cfc1fcadfde020920e278684144551c91769c7bc18"
             ],
-            "markers": "python_full_version >= '3.6.0'",
+            "markers": "python_version >= '3.6'",
             "version": "==2022.12.7"
         },
         "charset-normalizer": {
@@ -45,7 +45,7 @@
                 "sha256:5a3d016c7c547f69d6f81fb0db9449ce888b418b5b9952cc5e6e66843e9dd845",
                 "sha256:83e9a75d1911279afd89352c68b45348559d1fc0506b054b346651b5e7fee29f"
             ],
-            "markers": "python_full_version >= '3.6.0'",
+            "markers": "python_version >= '3.6'",
             "version": "==2.1.1"
         },
         "idna": {
@@ -128,11 +128,11 @@
                 "ssm"
             ],
             "hashes": [
-                "sha256:1496694f9029ec06ce5d5136ac9c6623884abf3057e5114746dbca932adc13f5",
-                "sha256:cd5b1c2372946da56629c60d1cbcabf593185fc9950759adc93f84116dfda8ef"
+                "sha256:480f3f8d3e5dba636544414168b3978633e2943411d551d6d0058f52503cf1f6",
+                "sha256:651b74d7605da45c7f95ca0f812a2b136885db2ed90f763683c0a574d6cae075"
             ],
             "index": "pypi",
-            "version": "==1.26.26"
+            "version": "==1.26.27"
         },
         "botocore": {
             "hashes": [
@@ -155,7 +155,7 @@
                 "sha256:35824b4c3a97115964b408844d64aa14db1cc518f6562e8d7261699d1350a9e3",
                 "sha256:4ad3232f5e926d6718ec31cfc1fcadfde020920e278684144551c91769c7bc18"
             ],
-            "markers": "python_full_version >= '3.6.0'",
+            "markers": "python_version >= '3.6'",
             "version": "==2022.12.7"
         },
         "cffi": {
@@ -232,7 +232,7 @@
                 "sha256:5a3d016c7c547f69d6f81fb0db9449ce888b418b5b9952cc5e6e66843e9dd845",
                 "sha256:83e9a75d1911279afd89352c68b45348559d1fc0506b054b346651b5e7fee29f"
             ],
-            "markers": "python_full_version >= '3.6.0'",
+            "markers": "python_version >= '3.6'",
             "version": "==2.1.1"
         },
         "cryptography": {
