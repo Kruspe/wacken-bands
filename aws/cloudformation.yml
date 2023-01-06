@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: Store Wacken bands
+Description: Wacken scrapper resources
 Parameters:
   BandBucketArn:
     Type: AWS::SSM::Parameter::Value<String>
