@@ -92,7 +92,7 @@ class ArtistInformation:
             result = []
             for artist, image in artist_images.items():
                 result.append({"artist": artist, "image": image})
-            self.s3.upload(bucket_name=os.getenv("FESTIVAL_BANDS_BUCKET"), key="wacken.json", json=json.dumps(result))
+            self.s3.upload(bucket_name=os.getenv("FESTIVAL_ARTISTS_BUCKET"), key="wacken.json", json=json.dumps(result))
 
     @staticmethod
     def _find_artists_with_matching_name(search_result, name):

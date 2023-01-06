@@ -2,7 +2,7 @@ version: '3'
 
 tasks:
   deploy-wacken:
-    desc: Deploy WackenBand lambda
+    desc: Deploy WackenArtists lambda
     deps: [build-wacken]
     dir: aws
     cmds:
@@ -11,10 +11,10 @@ tasks:
   deploy-wacken-to-aws:
     dir: aws
     cmds:
-    - aws cloudformation deploy --template-file cloudformation.yml --stack-name WackenBands --capabilities CAPABILITY_NAMED_IAM
+    - aws cloudformation deploy --template-file cloudformation.yml --stack-name WackenArtists --capabilities CAPABILITY_NAMED_IAM
       --parameter-overrides
-      BandBucketArn=/band-bucket/arn
-      BandBucketName=/band-bucket/name
+      FestivalBucketArn=/festival-bucket/arn
+      FestivalBucketName=/festival-bucket/name
       DeploymentBucketName=/festival-bands/deployment-bucket/name
       ParamWackenVersion={{.WACKEN_VERSION_ID}}
       --profile music-rating

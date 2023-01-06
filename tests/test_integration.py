@@ -16,11 +16,11 @@ from index import handler
 def setup_env():
     os.environ["SPOTIFY_CLIENT_ID_PARAMETER_NAME"] = "/spotify/client-id"
     os.environ["SPOTIFY_CLIENT_SECRET_PARAMETER_NAME"] = "/spotify/client-secret"
-    os.environ["FESTIVAL_BANDS_BUCKET"] = "bucket-name"
+    os.environ["FESTIVAL_ARTISTS_BUCKET"] = "bucket-name"
     yield
     del os.environ["SPOTIFY_CLIENT_ID_PARAMETER_NAME"]
     del os.environ["SPOTIFY_CLIENT_SECRET_PARAMETER_NAME"]
-    del os.environ["FESTIVAL_BANDS_BUCKET"]
+    del os.environ["FESTIVAL_ARTISTS_BUCKET"]
 
 
 @mock_s3

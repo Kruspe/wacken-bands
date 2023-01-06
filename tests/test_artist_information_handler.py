@@ -54,9 +54,9 @@ def spotify_envs():
 
 @pytest.fixture
 def bucket_env():
-    os.environ["FESTIVAL_BANDS_BUCKET"] = "MockedBucket"
+    os.environ["FESTIVAL_ARTISTS_BUCKET"] = "MockedBucket"
     yield
-    del os.environ["FESTIVAL_BANDS_BUCKET"]
+    del os.environ["FESTIVAL_ARTISTS_BUCKET"]
 
 
 @responses.activate

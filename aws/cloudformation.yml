@@ -1,9 +1,9 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: Wacken scrapper resources
 Parameters:
-  BandBucketArn:
+  FestivalBucketArn:
     Type: AWS::SSM::Parameter::Value<String>
-  BandBucketName:
+  FestivalBucketName:
     Type: AWS::SSM::Parameter::Value<String>
   DeploymentBucketName:
     Type: AWS::SSM::Parameter::Value<String>
@@ -32,7 +32,7 @@ Resources:
           Statement:
           - Effect: Allow
             Action: 's3:PutObject'
-            Resource: !Join [ "", [ !Ref BandBucketArn, "/wacken.json" ] ]
+            Resource: !Join [ "", [ !Ref FestivalBucketArn, "/wacken.json" ] ]
       - PolicyName: GetSsmParameters
         PolicyDocument:
           Version: "2012-10-17"
@@ -45,14 +45,14 @@ Resources:
   Lambda:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: wackenBands
+      FunctionName: wackenArtists
       Runtime: python3.9
       Handler: index.handler
       Role: !GetAtt [ LambdaExecutionRole, Arn ]
       Timeout: 60
       Environment:
         Variables:
-          FESTIVAL_BANDS_BUCKET: !Ref BandBucketName
+          FESTIVAL_ARTISTS_BUCKET: !Ref FestivalBucketName
           SPOTIFY_CLIENT_ID_PARAMETER_NAME: /spotify/client-id
           SPOTIFY_CLIENT_SECRET_PARAMETER_NAME: /spotify/client-secret
       Code:
@@ -73,7 +73,7 @@ Resources:
           Action:
           - 'sts:AssumeRole'
       Policies:
-      - PolicyName: ExecuteWackenBandsLambda
+      - PolicyName: ExecuteWackenArtistsLambda
         PolicyDocument:
           Version: "2012-10-17"
           Statement:
@@ -83,9 +83,9 @@ Resources:
   LambdaCronJob:
     Type: AWS::Events::Rule
     Properties:
-      Name: WackenBandsLamdaTrigger
+      Name: WackenArtistsLamdaTrigger
       ScheduleExpression: cron(0 9,20 * * ? *)
       RoleArn: !GetAtt [ CronJobRole, Arn ]
       Targets:
       - Arn: !GetAtt [ Lambda, Arn ]
-        Id: "Wacken-Bands-Lambda"
+        Id: "Wacken-Artists-Lambda"
