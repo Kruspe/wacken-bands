@@ -538,11 +538,11 @@
                 "ssm"
             ],
             "hashes": [
-                "sha256:356bf792b439228891c910e2a0fafd4264334cf9000b508c732ff43d8694fb6a",
-                "sha256:9ba96d04a472d5682493cad7fee33337da34ebef18b397af1ea6dfb41efbe148"
+                "sha256:6c45755e541a85e5382f809c75255d0b6335de334e7e8eb717f8fdc755830a8c",
+                "sha256:c4df7ae86f7cdd8ffcb2fcf55a45a7ab9f854ec631f1b9c82b1f47ae8c033326"
             ],
             "index": "pypi",
-            "version": "==4.0.10"
+            "version": "==4.1.1"
         },
         "mypy-boto3-s3": {
             "hashes": [
@@ -596,13 +596,6 @@
             ],
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==2.8.2"
-        },
-        "pytz": {
-            "hashes": [
-                "sha256:01a0681c4b9684a28304615eba55d1ab31ae00bf68ec157ec3708a8182dbbcd0",
-                "sha256:78f4f37d8198e0627c5f1143240bb0206b8691d8d7ac6d78fee88b78733f8c4a"
-            ],
-            "version": "==2022.7.1"
         },
         "pyyaml": {
             "hashes": [
