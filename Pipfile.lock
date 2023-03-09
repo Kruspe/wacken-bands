@@ -201,11 +201,11 @@
                 "ssm"
             ],
             "hashes": [
-                "sha256:6c86d2aff3cc5996803214caae44619101dac568dd3e0a8e361ebd4cd0e755d0",
-                "sha256:fce306f03761dacddd10a2f73767215e611494d41f990f51256db6b0defccb1a"
+                "sha256:975aab248017b12143c7ac4849151bae77c0ca84b14eaa5032f605be89106b19",
+                "sha256:e16689deffe20025dc68b912e84653acaf8f5ffd019d98721886b32869857dd4"
             ],
             "index": "pypi",
-            "version": "==1.26.84"
+            "version": "==1.26.87"
         },
         "botocore": {
             "hashes": [
