@@ -18,11 +18,11 @@
     "default": {
         "boto3": {
             "hashes": [
-                "sha256:6cb601c4232537aca2dd216282ff4383a7277f6a150b2c8947eda0c3933d0223",
-                "sha256:db8733f0a723c4548b6565d8665b876e93f28837d8d6bae40cc03a6e597cd6a6"
+                "sha256:03c2e1ddd29d993a6ab9b8a8fe184027957fc32bd405c496ad0c30311445925f",
+                "sha256:4ea3319bba2e8ff7cd9560259ae64f073c7fb6312158aa375777687231cabe69"
             ],
             "index": "pypi",
-            "version": "==1.26.111"
+            "version": "==1.26.112"
         },
         "botocore": {
             "hashes": [
@@ -181,11 +181,11 @@
     "develop": {
         "boto3": {
             "hashes": [
-                "sha256:6cb601c4232537aca2dd216282ff4383a7277f6a150b2c8947eda0c3933d0223",
-                "sha256:db8733f0a723c4548b6565d8665b876e93f28837d8d6bae40cc03a6e597cd6a6"
+                "sha256:03c2e1ddd29d993a6ab9b8a8fe184027957fc32bd405c496ad0c30311445925f",
+                "sha256:4ea3319bba2e8ff7cd9560259ae64f073c7fb6312158aa375777687231cabe69"
             ],
             "index": "pypi",
-            "version": "==1.26.111"
+            "version": "==1.26.112"
         },
         "boto3-stubs": {
             "extras": [
@@ -212,7 +212,7 @@
                 "sha256:341edf7d0e625c45c1caf101d15b9b0abe13c7079b6700c8a55e15c22f09349d",
                 "sha256:b5d473ca67502230c97d99bc2c449c3cde0e981d4ba5904e5fe69f10f531dc92"
             ],
-            "markers": "python_version >= '3.7' and python_version < '4.0'",
+            "markers": "python_version >= '3.7' and python_version < '4'",
             "version": "==1.29.112"
         },
         "certifi": {
@@ -650,7 +650,7 @@
                 "sha256:697c52422bc3f24302402139ec4511723feb990b5a36a8505a941bbbee1322d5",
                 "sha256:7f537fc433264a748145ae1148a7a61b33b6f5492d73ef51e5deb1ff8d5d1787"
             ],
-            "markers": "python_version >= '3.7' and python_version < '4.0'",
+            "markers": "python_version >= '3.7' and python_version < '4'",
             "version": "==0.16.13.post1"
         },
         "types-pyyaml": {
@@ -665,7 +665,7 @@
                 "sha256:40e665643f0647832d51c4a26d8a8275cda9134b02bf22caf28198b79bcad382",
                 "sha256:d9c669b30fdd61347720434aacb8ecc4645d900712a70b10f495104f9039c07b"
             ],
-            "markers": "python_version >= '3.7' and python_version < '4.0'",
+            "markers": "python_version >= '3.7' and python_version < '4'",
             "version": "==0.6.0.post7"
         },
         "typing-extensions": {
