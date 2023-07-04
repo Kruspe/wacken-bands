@@ -193,11 +193,11 @@
                 "ssm"
             ],
             "hashes": [
-                "sha256:6db531bfefb37206d54226aceb782e19cf4c64540aa0785ced9ff5af4a4d1845",
-                "sha256:76eb837e887ed2354c44a5f6984e85fb41480cc6dea6d6073bced4a27aebf14c"
+                "sha256:451749fc2bb0af5718bf1410473ec2e7f915bb860614cd0f6aca00c254ccf7e3",
+                "sha256:55b094ebbefecb0b8015451707aafeb81c2313e216dbbd5e2f2efff70a02db63"
             ],
             "index": "pypi",
-            "version": "==1.26.163"
+            "version": "==1.27.0"
         },
         "botocore": {
             "hashes": [
@@ -400,11 +400,11 @@
         },
         "exceptiongroup": {
             "hashes": [
-                "sha256:232c37c63e4f682982c8b6459f33a8981039e5fb8756b2074364e5055c498c9e",
-                "sha256:d484c3090ba2889ae2928419117447a14daf3c1231d5e30d0aae34f354f01785"
+                "sha256:12c3e887d6485d16943a309616de20ae5582633e0a2eda17f4e10fd61c1e8af5",
+                "sha256:e346e69d186172ca7cf029c8c1d16235aa0e04035e5750b4b95039e65204328f"
             ],
             "markers": "python_version < '3.11'",
-            "version": "==1.1.1"
+            "version": "==1.1.2"
         },
         "idna": {
             "hashes": [
@@ -508,17 +508,17 @@
         },
         "mypy-boto3-s3": {
             "hashes": [
-                "sha256:39417a3e4128c61e7b9353d080b93293f9ca9a4acf059a255d8357b9a4e12db2",
-                "sha256:47d3639cd097aa142dcaca43b431fa7a7eefb56e1596ebff625f571f16bd7623"
+                "sha256:0edcbebb22c564721d9ddc3db19537672382d4e9f05d132223be92eabea4f9bc",
+                "sha256:12c3c9d0e818c2de88f879cdad5f68fb6a7bfbc8cf01c85ae354a9f6b6c38558"
             ],
-            "version": "==1.26.163"
+            "version": "==1.27.0"
         },
         "mypy-boto3-ssm": {
             "hashes": [
-                "sha256:42c52e55a94b5d5ce14d628b4bc168b2b4230e130050172bf54747edb7b8da14",
-                "sha256:a5d9d7e4c7dbf4788dddcc02410afa349d7356a24fbffe5b7a36cd0c04211f06"
+                "sha256:07e0a2ab5957439e527c8381a54d9479d07b9e95b96a7cfcfcefddf3c4a78e29",
+                "sha256:1803f1aa582a2f7f2c6a8aa17c1f5f5eccd9f66ae8f5d1f8b2ae26dc237b4a94"
             ],
-            "version": "==1.26.162"
+            "version": "==1.27.0"
         },
         "packaging": {
             "hashes": [
