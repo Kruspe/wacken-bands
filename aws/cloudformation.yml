@@ -5,7 +5,7 @@ Parameters:
     Type: AWS::SSM::Parameter::Value<String>
   FestivalBucketName:
     Type: AWS::SSM::Parameter::Value<String>
-  DeploymentBucketName:
+  ParamDeploymentBucketName:
     Type: AWS::SSM::Parameter::Value<String>
   ParamWackenVersion:
     Type: String
@@ -42,11 +42,18 @@ Resources:
             Resource:
             - !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/spotify/client-id
             - !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/spotify/client-secret
+  InvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      Principal: 'events.amazonaws.com'
+      SourceArn: !GetAtt [ LambdaCronJob, Arn ]
+      FunctionName: !Ref Lambda
   Lambda:
     Type: AWS::Lambda::Function
     Properties:
       FunctionName: wackenArtists
-      Runtime: python3.9
+      Runtime: python3.10
       Handler: index.handler
       Role: !GetAtt [ LambdaExecutionRole, Arn ]
       Timeout: 60
@@ -56,7 +63,7 @@ Resources:
           SPOTIFY_CLIENT_ID_PARAMETER_NAME: /spotify/client-id
           SPOTIFY_CLIENT_SECRET_PARAMETER_NAME: /spotify/client-secret
       Code:
-        S3Bucket: !Ref DeploymentBucketName
+        S3Bucket: !Ref ParamDeploymentBucketName
         S3Key: wacken.zip
         S3ObjectVersion: !Ref ParamWackenVersion
 

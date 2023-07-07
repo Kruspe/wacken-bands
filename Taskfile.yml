@@ -15,17 +15,17 @@ tasks:
       --parameter-overrides
       FestivalBucketArn=/festival-bucket/arn
       FestivalBucketName=/festival-bucket/name
-      DeploymentBucketName=/festival-bands/deployment-bucket/name
+      ParamDeploymentBucketName=/music-rating/deployment-bucket/name
       ParamWackenVersion={{.WACKEN_VERSION_ID}}
       --profile music-rating
     vars:
       WACKEN_VERSION_ID:
-        sh: aws s3api put-object --bucket festival-bands-deployment-bucket --key wacken.zip --body ../dist/wacken.zip --profile music-rating | jq -r .VersionId
+        sh: aws s3api put-object --bucket music-rating-deployment-bucket --key wacken.zip --body ../dist/wacken.zip --profile music-rating | jq -r .VersionId
   build-wacken:
     cmds:
     - rm -rf dist
     - pipenv install
-    - pip install --target dist requests
+    - pip install --target dist requests boto3
     - task: zip-dependencies
     - zip -r dist/wacken.zip wacken_bands
     - zip -r dist/wacken.zip index.py
