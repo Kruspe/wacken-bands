@@ -37,6 +37,7 @@ jobs:
         run: |
           aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID" --profile music-rating
           aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY" --profile music-rating
+          pip install pipenv
           task deploy-wacken
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.LAMBDA_DEPLOY_ACCESS_KEY_ID }}
