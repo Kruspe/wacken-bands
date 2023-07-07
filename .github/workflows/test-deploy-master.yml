@@ -18,7 +18,7 @@ jobs:
         run: |
           pip install pipenv
           pipenv sync -d
-          pipenv run pytest
+          pipenv run pytest tests
   deploy:
     needs: test
     runs-on: ubuntu-latest
