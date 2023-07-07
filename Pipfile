@@ -5,13 +5,13 @@ verify_ssl = true
 
 [dev-packages]
 responses = "*"
-pytest = "*"
 boto3-stubs = {extras = ["s3", "ssm"], version = "*"}
 moto = {extras = ["s3", "ssm"], version = "*"}
+pytest = "*"
 
 [packages]
 requests = "*"
 boto3 = "*"
 
 [requires]
-python_version = "3"
+python_version = "3.10"
