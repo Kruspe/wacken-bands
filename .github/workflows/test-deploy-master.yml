@@ -29,17 +29,12 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.LAMBDA_DEPLOY_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.LAMBDA_DEPLOY_ACCESS_KEY_SECRET }}
-          aws-region: eu-west-1
       - name: Deploy Lambda
         run: |
-          pip install --target dist requests
-          cp -r src dist
-          cd dist
-          zip -r ../dist.zip *
-          cd ../
-          aws lambda update-function-code --function-name wackenBands --zip-file fileb://dist.zip
+          aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID" --profile music-rating
+          aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY" --profile music-rating
+          task deploy-wacken
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.LAMBDA_DEPLOY_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.LAMBDA_DEPLOY_ACCESS_KEY_SECRET }}
+          AWS_DEFAULT_REGION: eu-west-1
