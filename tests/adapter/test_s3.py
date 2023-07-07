@@ -9,7 +9,10 @@ from wacken_bands.adapter.s3 import S3
 @mock_s3
 def test_upload_uploads_to_s3():
     s3_client = boto3.client("s3")
-    s3_client.create_bucket(Bucket="bucket-name")
+    s3_client.create_bucket(
+        Bucket="bucket-name",
+        CreateBucketConfiguration={"LocationConstraint": "eu-west-1"},
+    )
     s3 = S3(s3_client=s3_client)
 
     s3.upload(bucket_name="bucket-name", key="key", json="json")
@@ -28,4 +31,7 @@ def test_upload_logs_exception(caplog):
     assert len(caplog.records) == 1
     for record in caplog.records:
         assert record.levelname == "ERROR"
-        assert record.getMessage() == "An error occurred (NoSuchBucket) when calling the PutObject operation: The specified bucket does not exist"
+        assert (
+            record.getMessage()
+            == "An error occurred (NoSuchBucket) when calling the PutObject operation: The specified bucket does not exist"
+        )

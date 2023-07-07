@@ -5,9 +5,7 @@ import boto3
 import pytest
 import responses
 from moto import mock_ssm, mock_s3
-
 from mypy_boto3_s3 import S3Client
-from mypy_boto3_s3.type_defs import GetObjectOutputTypeDef
 
 from index import handler
 
@@ -34,7 +32,9 @@ def test_get_bands_handler_gets_artists_and_images_and_uploads_them(setup_env):
         "token_type": "bearer",
         "expires_in": 3600,
     }
-    spotify_search_bloodbath_url = "https://api.spotify.com/v1/search?type=artist&limit=5&q=Bloodbath"
+    spotify_search_bloodbath_url = (
+        "https://api.spotify.com/v1/search?type=artist&limit=5&q=Bloodbath"
+    )
     spotify_search_bloodbath_response = {
         "artists": {
             "items": [
@@ -49,16 +49,35 @@ def test_get_bands_handler_gets_artists_and_images_and_uploads_them(setup_env):
             ]
         }
     }
-    responses.add(responses.GET, "https://www.wacken.com/fileadmin/Json/bandlist-concert.json", json=wacken_bloodbath_response, status=200)
-    responses.add(responses.POST, spotify_token_endpoint, json=spotify_token_response, status=200)
-    responses.add(responses.GET, spotify_search_bloodbath_url, json=spotify_search_bloodbath_response, status=200)
+    responses.add(
+        responses.GET,
+        "https://www.wacken.com/fileadmin/Json/bandlist-concert.json",
+        json=wacken_bloodbath_response,
+        status=200,
+    )
+    responses.add(
+        responses.POST, spotify_token_endpoint, json=spotify_token_response, status=200
+    )
+    responses.add(
+        responses.GET,
+        spotify_search_bloodbath_url,
+        json=spotify_search_bloodbath_response,
+        status=200,
+    )
 
     s3_client: S3Client = boto3.client("s3")
-    s3_client.create_bucket(Bucket="bucket-name")
+    s3_client.create_bucket(
+        Bucket="bucket-name",
+        CreateBucketConfiguration={"LocationConstraint": "eu-west-1"},
+    )
 
     ssm_client = boto3.client("ssm", "eu-west-1")
-    ssm_client.put_parameter(Name="/spotify/client-id", Value="value1", Type="SecureString")
-    ssm_client.put_parameter(Name="/spotify/client-secret", Value="value2", Type="SecureString")
+    ssm_client.put_parameter(
+        Name="/spotify/client-id", Value="value1", Type="SecureString"
+    )
+    ssm_client.put_parameter(
+        Name="/spotify/client-secret", Value="value2", Type="SecureString"
+    )
 
     expected_json = [{"artist": "Bloodbath", "image": "https://image_320.com"}]
 
