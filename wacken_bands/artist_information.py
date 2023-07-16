@@ -23,7 +23,8 @@ class ArtistInformation:
         if response.status_code == 200:
             artists = response.json()
             for artist in artists:
-                artist_names.append(artist["artist"]["title"])
+                if artist["artist"]["title"] != "Metal Disco" and artist["artist"]["title"] != "Metal Yoga":
+                    artist_names.append(artist["artist"]["title"])
         return artist_names
 
     def get_images(self, *, artist_names: List[str]) -> Dict:
