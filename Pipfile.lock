@@ -193,11 +193,11 @@
                 "ssm"
             ],
             "hashes": [
-                "sha256:00ccf0f4a83e5fe4eaf03e9cd9c5e5488a9cd97aa6eba005457a4af6f2a8fc2a",
-                "sha256:df6a874ae63db4634a7f6a695f3a042a3903f16b8d49a2fb9e9b392a8355d4df"
+                "sha256:4b51ef71e100a5dcdfa476108f2620458f3f70ec1444bfa41dca21405780d9d1",
+                "sha256:511816404c2b5c9fb8e72ddb50f92e49348b8391ac8b3c05eb26b8cb98e44a29"
             ],
             "index": "pypi",
-            "version": "==1.28.12"
+            "version": "==1.28.14"
         },
         "botocore": {
             "hashes": [
