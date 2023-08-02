@@ -193,11 +193,11 @@
                 "ssm"
             ],
             "hashes": [
-                "sha256:b3d4f6d75229fc243857816dc3f98986bd00277d491a9b59caabe675ce074278",
-                "sha256:c5113317ac1557aa39382bf439355ef33802464b7f4fb7edb2ff369c152bf923"
+                "sha256:96a863bdd1b77ae8e5687e7d6f1272c8bd2ff8abd1dfbbac6734a84507516e36",
+                "sha256:d72bd6f83011a6c780c6b3c4de015c993e6e9739bd87fd9c7daf62b1255cf592"
             ],
             "index": "pypi",
-            "version": "==1.28.16"
+            "version": "==1.28.17"
         },
         "botocore": {
             "hashes": [
@@ -399,7 +399,7 @@
                 "sha256:ce785cf81a7bdade534297ef9e490ddff800d956625020ab2ec2780a556c313e",
                 "sha256:d0d651aa754ef58d75cec6edfbd21259d93810b73f6ec246436a21b7841908de"
             ],
-            "index": "pypi",
+            "markers": "python_version >= '3.7'",
             "version": "==41.0.3"
         },
         "exceptiongroup": {
