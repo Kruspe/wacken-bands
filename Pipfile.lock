@@ -504,11 +504,11 @@
                 "ssm"
             ],
             "hashes": [
-                "sha256:545afeb4df94dfa730e2d7e87366dc26b4a33c2891f462cbb049f040c80ed1ec",
-                "sha256:7d3bd748a34641715ba469c761f72fb8ec18f349987c98f5a0f9be85a07a9911"
+                "sha256:272236d312457b324c645741ee589924fd61a96b84680dc2e607f8663c563551",
+                "sha256:3fbcf91090692c30117d275fb34b48a075a6f65d4712ba6c4d004ffab976db46"
             ],
             "index": "pypi",
-            "version": "==4.1.14"
+            "version": "==4.1.15"
         },
         "mypy-boto3-s3": {
             "hashes": [
