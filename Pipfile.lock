@@ -26,11 +26,11 @@
         },
         "botocore": {
             "hashes": [
-                "sha256:61aefac8b44f86a4581d4128cce30806f633357e8d8efc4f73367a8e62009e70",
-                "sha256:8ce716925284c1c0d04c796016a1e0e9c29ca3e196afefacacc16bc4e80c978f"
+                "sha256:ce22a82ef8674f49691477d09558992cc87e7331f65c6a5b0da897ab192240ca",
+                "sha256:df766969f0d9ef9eda1a9c9946e0e173c10199f37a9e4c92861f11ddb5c9e702"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==1.31.39"
+            "version": "==1.31.40"
         },
         "certifi": {
             "hashes": [
@@ -201,19 +201,19 @@
         },
         "botocore": {
             "hashes": [
-                "sha256:61aefac8b44f86a4581d4128cce30806f633357e8d8efc4f73367a8e62009e70",
-                "sha256:8ce716925284c1c0d04c796016a1e0e9c29ca3e196afefacacc16bc4e80c978f"
+                "sha256:ce22a82ef8674f49691477d09558992cc87e7331f65c6a5b0da897ab192240ca",
+                "sha256:df766969f0d9ef9eda1a9c9946e0e173c10199f37a9e4c92861f11ddb5c9e702"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==1.31.39"
+            "version": "==1.31.40"
         },
         "botocore-stubs": {
             "hashes": [
-                "sha256:a6aa469cf5d94f99439d3a5705fb09934fed06d528be06b301665ffd36497cd8",
-                "sha256:ecb3e127d6e9d6aed011f6088719a65e2d6b4486b62c8121759999c3793590a0"
+                "sha256:2001a253daf4ae2e171e6137b9982a00a7fbfc7a53449a16856dc049e7cd5214",
+                "sha256:aab534d7e7949cd543bc9b2fadc1a36712033cb00e6f31e2475eefe8486d19ae"
             ],
             "markers": "python_version >= '3.7' and python_version < '4.0'",
-            "version": "==1.31.39"
+            "version": "==1.31.40"
         },
         "certifi": {
             "hashes": [
@@ -504,11 +504,11 @@
                 "ssm"
             ],
             "hashes": [
-                "sha256:00fbae396fc48c3596e47b4e3267c1a41ca01c968de023beb68e774c63910b58",
-                "sha256:e4835912f05627b6a53b938562b717122230fb038d023819133f8526f60ed0a7"
+                "sha256:2a9cbcd9da1a66b23f95d62ef91968284445233a606b4de949379395056276fb",
+                "sha256:ee34c4c3f53900d953180946920c9dba127a483e2ed40e6dbf93d4ae2e760e7c"
             ],
             "index": "pypi",
-            "version": "==4.2.0"
+            "version": "==4.2.2"
         },
         "mypy-boto3-s3": {
             "hashes": [
