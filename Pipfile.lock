@@ -517,11 +517,11 @@
                 "ssm"
             ],
             "hashes": [
-                "sha256:2e934d834729b274382055e097b166127db829ab4fae00bb08c031c108391a2c",
-                "sha256:4caab0145d557d102fe79d0ce3b73d6bf1d916d29ad03c14da15f7da66429cdb"
+                "sha256:3516f55405015e4516c549d875c7a93e7daa1622d6342af335e63cf7bfe442fd",
+                "sha256:eea3c5b29987e8b12816b355dfdcca5d7a815a9d9f17208af31fa32acbe8b389"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==4.2.3"
+            "version": "==4.2.4"
         },
         "mypy-boto3-s3": {
             "hashes": [
