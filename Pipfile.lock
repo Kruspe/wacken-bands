@@ -536,11 +536,11 @@
                 "ssm"
             ],
             "hashes": [
-                "sha256:4440bc86d5a7bb77043d8031022f549e0c1e2869f1218b0939dbbbdc10776932",
-                "sha256:cc9650747088a72db810ed0fd96f852b6fa296ca4b5e7818d17d9e7fdaf5dde6"
+                "sha256:20cd41f89b7fe363ef49b9ead787c9a1f3d560f4d0711b3767e7416694de1127",
+                "sha256:ce0a55d7e756c59a5a4392c7097aa5ca53e00aa2dd3f7000093356be15e7aef9"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==4.2.5"
+            "version": "==4.2.6"
         },
         "mypy-boto3-s3": {
             "hashes": [
@@ -574,10 +574,10 @@
         },
         "py-partiql-parser": {
             "hashes": [
-                "sha256:5341f1adc3bdd5dbe7c980fc17b3a4a6353c9052e5b5dd70f6aff9306fb8cbb2",
-                "sha256:e18696b40b9733b1e4b312969f8210fcde24e0766e2a0da799e8f70a5594d6ab"
+                "sha256:133d3dd8278de6c289eec17256b1e5d147c53c980ee54d9ee1535ce6f58ada3c",
+                "sha256:a7c2bb54c8a123332d8853aaaad37cdb7c4503d0c6ee2309d10ee878b0edaa6b"
             ],
-            "version": "==0.3.7"
+            "version": "==0.4.0"
         },
         "pycparser": {
             "hashes": [
