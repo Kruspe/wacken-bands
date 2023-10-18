@@ -191,7 +191,6 @@
                 "sha256:c97dfde1f7bd43a71c8d2a58e369e9b2bf692d1334ea9f9cae55add7d0dd0f84",
                 "sha256:fdb6d215c776278489906c2f8916e6e7d4f5a9b602ccbcfdf7f016fc8da0596e"
             ],
-            "index": "pypi",
             "markers": "python_version >= '3.7'",
             "version": "==2.0.7"
         }
@@ -212,11 +211,11 @@
                 "ssm"
             ],
             "hashes": [
-                "sha256:8ba0537fa1fd40210ab42c116ab2bae0b8b6dcce5d4f2a61cb9890b50d87fcf9",
-                "sha256:ce4cbf2c1afa1a14c5c3cc56a74f78c0c188480cda960a26f998b93ff163ce06"
+                "sha256:26bd79d43f4e65512f7226994cba9a60a59e52526d1c59ef62eae9fadaa71e6a",
+                "sha256:ce29db1fd5f5ce5088018fd3cc9f3676223ced485743c4d0748b0da0348006aa"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==1.28.64"
+            "version": "==1.28.65"
         },
         "botocore": {
             "hashes": [
@@ -738,7 +737,6 @@
                 "sha256:c97dfde1f7bd43a71c8d2a58e369e9b2bf692d1334ea9f9cae55add7d0dd0f84",
                 "sha256:fdb6d215c776278489906c2f8916e6e7d4f5a9b602ccbcfdf7f016fc8da0596e"
             ],
-            "index": "pypi",
             "markers": "python_version >= '3.7'",
             "version": "==2.0.7"
         },
