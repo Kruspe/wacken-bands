@@ -211,11 +211,11 @@
                 "ssm"
             ],
             "hashes": [
-                "sha256:110d7aa0d64bae06b2af2db6d1c06f2d94ceabff6349dd81695c5a8238898429",
-                "sha256:7681e82388d4afc091dc3e33db159c426ce9ce416f204bcd0b993322b44191a6"
+                "sha256:2bfabb4a3a18b7fe73fedfe8f2d29aac35fecfb37037b9e8991ae48531c6cf3b",
+                "sha256:cb3d773bb3efb6699d3df7714a0ae44dd47bbb3a70a7eee8b850eb260176ae83"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==1.28.68"
+            "version": "==1.28.69"
         },
         "botocore": {
             "hashes": [
