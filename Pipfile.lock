@@ -210,12 +210,12 @@
                 "ssm"
             ],
             "hashes": [
-                "sha256:7903dc8a203beb74d6237b266ae064ff5a9b276074af7500b7db48544649596a",
-                "sha256:df41c849ad6b42096e1293528bf72e05773d1fdeedddc9e5410417eb9ac3f02f"
+                "sha256:a24f5a3c5db118fc58c6487f1a8cc8a4a82062607916bfa9731297ca0b290697",
+                "sha256:f0306167d19367714dcd3d2b1b4c58c326fb9d9e8e9edbdbd53180581632f45a"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.8'",
-            "version": "==1.34.72"
+            "version": "==1.34.73"
         },
         "botocore": {
             "hashes": [
